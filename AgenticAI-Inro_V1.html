@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic AI in Finance</title>
+    <style>
+        :root {
+            /* Elegant light beige theme suitable for projectors */
+            --bg-color: #FDFBF7;
+            --text-main: #2D3748;
+            --text-muted: #4A5568;
+            --accent-blue: #2B6CB0;
+            --accent-light: #EBF8FF;
+            --card-bg: #FFFFFF;
+            --border-radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            font-size: 28px; /* Large base font for projector visibility */
+            line-height: 1.6;
+            overflow: hidden; /* Prevent scrolling during presentation */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide-container {
+            flex-grow: 1;
+            position: relative;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 60px;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 60px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: var(--accent-blue);
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 40px;
+            border-bottom: 3px solid var(--accent-blue);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        /* Step-by-step reveal elements */
+        .step {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease-out;
+            margin-bottom: 20px;
+        }
+
+        .step.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Card styling for Anatomy and Use Case steps */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            width: 100%;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 25px 35px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+            border-left: 8px solid var(--accent-blue);
+        }
+
+        .card-title {
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .highlight-box {
+            background: var(--accent-light);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            margin-top: 30px;
+            border: 2px solid #bee3f8;
+        }
+
+        .analogy {
+            font-size: 1.4rem;
+            font-style: italic;
+            color: var(--text-muted);
+        }
+
+        .controls-hint {
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            font-size: 16px;
+            color: #A0AEC0;
+            font-weight: 600;
+        }
+
+        .bold-blue {
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slide-container">
+        
+        <div class="slide active" id="slide-1">
+            <h1 class="step visible">Understanding Agentic AI</h1>
+            <div class="step">
+                <p>Agentic AI represents a massive shift from AI that simply <strong>"chats"</strong> to AI that <strong>"acts"</strong> to achieve a specific business goal.</p>
+            </div>
+            
+            <div class="highlight-box step">
+                <p class="analogy">
+                    "Think of traditional AI (like standard ChatGPT) as a <strong>helpful librarian</strong> who points you to the right books.<br><br>
+                    Agentic AI is your <strong>expert personal assistant</strong>—they don't just find the book, they read it, highlight the key financial metrics, draft a summary, and email it to the investment committee."
+                </p>
+            </div>
+        </div>
+
+        <div class="slide" id="slide-2">
+            <h2>The Anatomy of an AI Agent</h2>
+            <div class="grid-container">
+                <div class="card step">
+                    <div class="card-title">1. Perception (Sensory System)</div>
+                    Gathers data from the environment—reads emails, scans ERP updates, or monitors market feeds to understand the current situation.
+                </div>
+                <div class="card step">
+                    <div class="card-title">2. Planning (Cognition/Brain)</div>
+                    The strategic command center. Breaks down complex financial goals into smaller, logical tasks and creates an execution plan.
+                </div>
+                <div class="card step">
+                    <div class="card-title">3. Tool Use</div>
+                    The ability to connect to external systems. It can use Excel, log into SAP/Oracle, query a database, or send emails.
+                </div>
+                <div class="card step">
+                    <div class="card-title">4. Action</div>
+                    Executes the plan. Submits the form, routes the approval, or generates the final reporting dashboard.
+                </div>
+                <div class="card step">
+                    <div class="card-title">5. Memory (Context)</div>
+                    Stores short-term memory (the current transaction) and long-term memory (historical vendor terms, company policies).
+                </div>
+                <div class="card step">
+                    <div class="card-title">6. Reflection</div>
+                    Analyzes outcomes. If an action fails or is delayed, it logs the issue and adapts future behavior to be more efficient.
+                </div>
+            </div>
+        </div>
+
+        <div class="slide" id="slide-3">
+            <h2>Anatomy in Action: Finance Use Case</h2>
+            <p style="margin-bottom: 20px;" class="step"><strong>Goal:</strong> <span class="bold-blue">"Process an incoming vendor invoice and schedule it for payment."</span></p>
+            
+            <div class="grid-container" style="font-size: 24px;">
+                <div class="card step">
+                    <div class="card-title">1. Perception</div>
+                    Scans the Accounts Payable inbox, detects a new PDF invoice, and uses OCR to extract Vendor ID, Amount, and Due Date.
+                </div>
+                <div class="card step">
+                    <div class="card-title">2. Planning</div>
+                    Creates a checklist: 1. Match with PO in ERP. 2. Verify budget availability. 3. Route to Dept Head. 4. Schedule payout.
+                </div>
+                <div class="card step">
+                    <div class="card-title">3. Tool Use</div>
+                    Accesses the ERP system (to check POs) and the company's secure email server (to route approvals).
+                </div>
+                <div class="card step">
+                    <div class="card-title">4. Action</div>
+                    Sends the approval email, waits for the manager's "Approved" reply, and stages the payment in the banking portal.
+                </div>
+                <div class="card step">
+                    <div class="card-title">5. Memory</div>
+                    Remembers that this specific vendor offers a 2% early-payment discount if cleared within 10 days.
+                </div>
+                <div class="card step">
+                    <div class="card-title">6. Reflection</div>
+                    Logs that the Department Head took 4 days to approve, flagging the timeline for future cash-flow forecasting.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="controls-hint">Use [Right Arrow] or [Enter] to advance</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            let currentSlideIndex = 0;
+
+            // Initialize slides by getting their steps
+            const slideSteps = Array.from(slides).map(slide => Array.from(slide.querySelectorAll('.step')));
+            let currentStepIndex = 0;
+
+            // Make the first slide's first step visible immediately if it exists
+            if (slideSteps[0].length > 0) {
+                slideSteps[0][0].classList.add('visible');
+            }
+
+            function advancePresentation() {
+                const currentSteps = slideSteps[currentSlideIndex];
+
+                // Check if there are more steps to reveal on the current slide
+                if (currentStepIndex < currentSteps.length - 1) {
+                    currentStepIndex++;
+                    currentSteps[currentStepIndex].classList.add('visible');
+                } 
+                // If all steps are revealed, move to the next slide
+                else if (currentSlideIndex < slides.length - 1) {
+                    slides[currentSlideIndex].classList.remove('active');
+                    currentSlideIndex++;
+                    currentStepIndex = -1; // Reset step index for the new slide
+                    slides[currentSlideIndex].classList.add('active');
+                    
+                    // Immediately trigger the first step of the new slide
+                    advancePresentation(); 
+                }
+            }
+
+            function reversePresentation() {
+                const currentSteps = slideSteps[currentSlideIndex];
+
+                // If there are steps shown, hide the last one
+                if (currentStepIndex > 0) {
+                    currentSteps[currentStepIndex].classList.remove('visible');
+                    currentStepIndex--;
+                } 
+                // If we are at the first step, go back a slide
+                else if (currentSlideIndex > 0) {
+                    slides[currentSlideIndex].classList.remove('active');
+                    currentSlideIndex--;
+                    slides[currentSlideIndex].classList.add('active');
+                    // Set step index to the end of the previous slide
+                    currentStepIndex = slideSteps[currentSlideIndex].length - 1;
+                }
+            }
+
+            // Listen for keyboard events
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    advancePresentation();
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    reversePresentation();
+                }
+            });
+            
+            // Allow click to advance for ease of use
+            document.body.addEventListener('click', () => {
+                advancePresentation();
+            });
+        });
+    </script>
+</body>
+</html>
