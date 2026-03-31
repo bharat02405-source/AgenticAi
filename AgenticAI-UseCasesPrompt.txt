@@ -1,0 +1,67 @@
+You are an UI designer and working on a Agentic AI Portal for a Finance organization. This Website will be used by Finance community to understand the capability of Agentic AI. Please come up with list of 3 most common Use Cases within
+Banking industry which can be solved using various AI platforms (Traditional AI, Gen AI, RAG, Agentic AI) and show a comparison of the tasks these platforms can execute and can't. Give the overall score for each platform and highlight the most effective platform across all 4 platforms.
+Please follow the given guidelines:
+Create dedicated tab for each use case
+List down all Task which constitutes this use case in left side of the screen
+Then start showing the capability of AI Platform along with which task is achievable which is NOT.
+Start with Traditional AI block followed by GenAI then RAG and in the end Agentic AI
+All these blocks should appear on the screen with right arrow click in the given pattern:
+Use will select the Use Case Tab 1st, it should give 1 liner intro of the business use case in the header block
+On next right arrow/enter button click it should list down all tasks involved in the process in the extreme left corner of the screen just beneath introduction header
+On next enter/right arrow click, it should display the Capability of  Traditional AI platform along with which Task can be taken over by the solution (Right tick icon with which capability allows the platform to execute this task) and which one cannot ( Cross Icon with 1 word reason why not this is possible) along with a %age score for how much work can be achieved by the solution in the Bottom of the block.
+On next click size of the AI block will reduce to normal size as a block next to Task list
+Next enter/right arrow will display the capability black for GenAI with size 33% bigger than normal size of the block, on next arrow size should reduce to normal block size and alignment is next to Traditional AI
+Repeat the same logic for RAG and Agentic AI solution as per the sequence
+Once all 4 Blocks gets covered, Please call out which Platform is the champion in taking care of the maximum tasks with some fireworks in the background. Please ensure than this happens on a Pop-Up window which is having an option to close the window.
+All 3 business use case will have same sequence.
+Background Recommendation:
+Dark Theme: Deep Charcoal/Midnight Blue (#0A0F1E, #1B2A41): These colors convey trust and stability while offering a modern, high-tech feel that reduces the harshness of pure black.
+Light Color Theme: Champagne or creamy beige (#D2C4B4) color palette, this should be the default theme.
+Give an option on the right corner of the screen to change the website theme to Dark from Light theme.
+Please ensure that website is having very professional theme and it should have best in class layout elements. Please create a downloadable HTML file package for this ask.
+==============End of original Prompt=========
+**************1st Feedback Prompt************
+Please re-visit this delivery and make the webpage more professional and text should be bigger till the extent we can utilize the space. Also, use better font style which is more professional and going well with the website theme and content. Also please ensure that Use case Task Block is aligned with the block created for AI platforms and have same height. Make the final winner pop-up screen more classy and eye catching.
+*********END Of 1st Feedback prompt***************
++++++++++2nd Feedback prompt++++++++++++++++++
+Changes in the HTML site:
+1. Let's keep the Task List in left panel as reference, rest of the AI solutions we just need to provide Tick  and cross icons.
+2. Please include an "i" icon against each tick mark to provide information how this tool will execute this step) or cross (Along with  "i" icon to explain then limitation/complication involved with step which is not allowing tool to execute the step)
+++++++++++++End of 2nd Feedback++++++++++++
+==============3rd Feedback Prompt=============
+Changes in the HTML site:
+1. Let's keep the Task List in left panel as reference, rest of the AI solutions we just need to provide Tick  and cross icons.
+2. Please include an "i" icon against each tick mark to provide information how this tool will execute this step)
+1. Also attach "i" icon next to each cross icon to explain then limitation/complication involved with step which is not allowing tool to execute the step.
+2. Also include 3rd status for each task which is Partial ("-" icon) to all task where conditional success is possible conditionally that given condition is provided. Provide an "i" icon to provide this partial success condition.
+3. Basis on the re-organized layout try to adjust the Font Size, try to increase the font size till the extent  available space can handle without spilling the text to next line at 100% zoom setting.
+4. Try to utilize the complete screen with appropriate Font size, considering this screen will be presented on a big projector for a presentation and text should be easy to read from a distance. Bigger text is the key.
+5. Please keep the code change only limited to the above mentioned changes. Please produce the HTML downloadable code block.
+================End of 3rd feedback prompt==================
+++++++++++++++++4th Feedback prompt+++++++++++++++++++
+Proposed changes in the latest html page design:
+
+1. Provide "I" icon against each task to know the business objective of the task at a granular level to provide more insight about the task.
+
+2. Please align Task Name list with the respective tool capability horizontally for a better visibility and easy to assess the mapping of tool's capability against the task.
+
+3. To utilise the space more efficiently, please make this change in the sequence of events. User will select the use case tab, post that brief description of the use case along with a header will display, post on next enter click, list of the tasks will be displayed, post to that once user click on right arrow or enter button it will display the AI platform capability block, along with this the use case briefs description detail should be vanished and there should be an expand button to get this detail. 
+
+4. Utilise the available space with an intention to increase the font size for better visibility on the projector.
+++++++++++++++++End of 4th Feedback+++++++++++++++++
+================5th Feedback========================
+Few Feedback points:
+
+1. Increase the font size to the AI Platform Header as much the block width can accommodate
+
+2. Increase the header size of the Use case name as much it can accommodate
+
+Few Feedback points:
+
+1. Reduce the width of AL Platform blocks and align the Capability Flag icon centrally aligned
+
+2. Increase the width of Task List block to ensure task detail text is in 1 line at 100% screen resolution.
+
+3. Quick description of the AI Platforms to be retained, in the latest code that detail is removed.
+===============End of 5th Feedback===================
+
