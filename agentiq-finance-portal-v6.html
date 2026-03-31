@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgentIQ — Finance AI Capability Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-base:#F5EEE4;--bg-surface:#EDE5D8;--bg-card:#FDFAF5;--bg-alt:#F2EAD8;--bg-inset:#E6DDD0;
+  --tx-h:#100C06;--tx-b:#352A1C;--tx-s:#5C4D3A;--tx-f:#8C7A64;
+  --gold:#B5861C;--gold-lt:#D4A830;--gold-dk:#8A640E;--copper:#924F18;
+  --blt:rgba(181,134,28,.13);--bmd:rgba(181,134,28,.26);
+  --ok:#1B6640;--ok-bg:rgba(27,102,64,.11);
+  --no:#9A2F18;--no-bg:rgba(154,47,24,.11);
+  --pt:#7A5A0A;--pt-bg:rgba(122,90,10,.11);
+  --trad:#2F6FAA;--gen:#6240A8;--rag:#1A7858;
+  --sh1:0 2px 16px rgba(16,12,6,.07);--sh2:0 6px 32px rgba(16,12,6,.12);
+  --sh3:0 16px 56px rgba(16,12,6,.17);--sh4:0 28px 80px rgba(16,12,6,.23);
+  --hh:70px;
+}
+.dark{
+  --bg-base:#070C1A;--bg-surface:#0D1628;--bg-card:#122032;--bg-alt:#18293E;--bg-inset:#0A1120;
+  --tx-h:#EAE0D0;--tx-b:#B4C4D4;--tx-s:#7090A8;--tx-f:#405870;
+  --gold:#D4A830;--gold-lt:#ECC050;--gold-dk:#A87C20;--copper:#C87838;
+  --blt:rgba(212,168,48,.10);--bmd:rgba(212,168,48,.22);
+  --ok:#38A86A;--ok-bg:rgba(56,168,106,.13);
+  --no:#D05040;--no-bg:rgba(208,80,64,.13);
+  --pt:#D4A830;--pt-bg:rgba(212,168,48,.13);
+  --trad:#5898D0;--gen:#9070D8;--rag:#38B88A;
+  --sh1:0 2px 16px rgba(0,0,0,.30);--sh2:0 6px 32px rgba(0,0,0,.42);
+  --sh3:0 16px 56px rgba(0,0,0,.54);--sh4:0 28px 80px rgba(0,0,0,.65);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{font-size:16px;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg-base);color:var(--tx-b);min-height:100vh;overflow-x:hidden;transition:background .4s,color .4s;}
+
+/* ══ HEADER ══ */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:400;height:var(--hh);background:var(--bg-card);border-bottom:1px solid var(--bmd);display:flex;align-items:center;justify-content:space-between;padding:0 2.4rem;box-shadow:var(--sh1);}
+.hdr-brand{display:flex;align-items:center;gap:.9rem;}
+.hdr-emblem{width:44px;height:44px;background:linear-gradient(135deg,var(--gold-lt),var(--copper));border-radius:11px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(181,134,28,.38);flex-shrink:0;}
+.hdr-emblem svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.hdr-name{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:700;color:var(--tx-h);line-height:1.1;}
+.hdr-tagline{font-size:.68rem;font-weight:500;color:var(--tx-f);letter-spacing:.14em;text-transform:uppercase;margin-top:1px;}
+.hdr-right{display:flex;align-items:center;gap:.85rem;}
+.hdr-badge{font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border:1px solid var(--bmd);border-radius:100px;padding:.28rem .9rem;background:var(--bg-surface);}
+.theme-btn{display:flex;align-items:center;gap:.5rem;background:var(--bg-surface);border:1px solid var(--bmd);border-radius:100px;padding:.38rem 1rem;cursor:pointer;color:var(--tx-s);font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;transition:all .2s;}
+.theme-btn:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ══ HERO ══ */
+.hero{margin-top:var(--hh);background:linear-gradient(112deg,var(--bg-surface),var(--bg-card) 55%,var(--bg-base));border-bottom:1px solid var(--bmd);padding:1.8rem 2.4rem 1.5rem;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:420px;height:420px;background:radial-gradient(circle,rgba(181,134,28,.08),transparent 68%);border-radius:50%;pointer-events:none;}
+.hero-inner{display:flex;align-items:center;justify-content:space-between;gap:2rem;position:relative;z-index:1;}
+.hero-h{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--tx-h);line-height:1.1;margin-bottom:.4rem;}
+.hero-h em{font-style:italic;color:var(--gold);}
+.hero-p{font-size:.97rem;line-height:1.72;color:var(--tx-s);max-width:660px;}
+.hero-stats{display:flex;gap:1rem;flex-shrink:0;}
+.h-stat{text-align:center;background:var(--bg-card);border:1px solid var(--blt);border-radius:12px;padding:.65rem 1rem;min-width:76px;}
+.h-stat-v{font-family:'DM Mono',monospace;font-size:1.4rem;font-weight:500;color:var(--gold);}
+.h-stat-l{font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--tx-f);margin-top:2px;}
+
+/* ══ TABS ══ */
+.tabs-wrap{background:var(--bg-surface);border-bottom:1px solid var(--bmd);padding:0 2.4rem;display:flex;align-items:stretch;position:sticky;top:var(--hh);z-index:300;}
+.tab{position:relative;display:flex;align-items:center;gap:.6rem;padding:0 1.5rem;height:52px;border:none;background:transparent;cursor:pointer;color:var(--tx-f);font-family:'DM Sans',sans-serif;font-size:.93rem;font-weight:600;letter-spacing:.02em;white-space:nowrap;transition:color .2s;border-bottom:3px solid transparent;}
+.tab:hover{color:var(--tx-s);}
+.tab.on{color:var(--gold);border-bottom-color:var(--gold);}
+.tab-n{width:24px;height:24px;border-radius:6px;background:var(--bg-inset);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:.7rem;font-weight:500;color:var(--tx-f);transition:all .2s;}
+.tab.on .tab-n{background:var(--gold);color:#fff;}
+
+/* ══ STAGE ══ */
+.stage{padding:1.4rem 2.4rem 6rem;}
+.panel{display:none;}
+.panel.on{display:block;}
+
+/* ══ WELCOME SCREEN ══ */
+.welcome{background:var(--bg-card);border:1px solid var(--bmd);border-radius:20px;padding:3rem 2.8rem;text-align:center;box-shadow:var(--sh2);max-width:780px;margin:1.5rem auto;opacity:0;transform:translateY(18px);animation:fadeUp .55s .1s cubic-bezier(.22,1,.36,1) forwards;}
+.welcome-ico{font-size:3.8rem;margin-bottom:1rem;}
+.welcome-h{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weight:700;color:var(--tx-h);margin-bottom:.6rem;}
+.welcome-p{font-size:.97rem;line-height:1.72;color:var(--tx-s);margin-bottom:1.8rem;max-width:600px;margin-left:auto;margin-right:auto;}
+.welcome-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;text-align:left;}
+.uc-card{background:var(--bg-surface);border:1px solid var(--bmd);border-radius:14px;padding:1.2rem 1.3rem;cursor:pointer;transition:all .22s;}
+.uc-card:hover{border-color:var(--gold);background:var(--bg-alt);transform:translateY(-3px);box-shadow:var(--sh2);}
+.uc-emo{font-size:1.85rem;margin-bottom:.5rem;}
+.uc-n{font-size:.64rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.28rem;}
+.uc-ttl{font-family:'Cormorant Garamond',serif;font-size:1.08rem;font-weight:700;color:var(--tx-h);line-height:1.25;margin-bottom:.38rem;}
+.uc-p{font-size:.8rem;line-height:1.55;color:var(--tx-s);}
+
+/* ══ INTRO CARD ══ */
+.intro-wrap{margin-bottom:1.1rem;opacity:0;transform:translateY(14px);animation:fadeUp .5s cubic-bezier(.22,1,.36,1) forwards;}
+.intro-card{background:var(--bg-card);border:1px solid var(--bmd);border-radius:16px;padding:1.6rem 2rem;display:flex;align-items:flex-start;gap:1.2rem;box-shadow:var(--sh2);position:relative;overflow:hidden;}
+.intro-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,var(--gold-lt),var(--copper));border-radius:5px 0 0 5px;}
+.intro-emo{font-size:2.5rem;line-height:1;flex-shrink:0;transition:font-size .3s;}
+.intro-left{flex:1;min-width:0;}
+.intro-lbl{font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.28rem;}
+.intro-title{font-family:'Cormorant Garamond',serif;font-size:1.65rem;font-weight:700;color:var(--tx-h);line-height:1.2;transition:font-size .3s;}
+.intro-bwrap{overflow:hidden;transition:max-height .38s ease,opacity .3s;}
+.intro-body{font-size:.95rem;line-height:1.72;color:var(--tx-s);padding-top:.38rem;}
+/* collapsed state */
+.intro-card.col{padding:.72rem 2rem;align-items:center;}
+.intro-card.col .intro-emo{font-size:1.5rem;}
+.intro-card.col .intro-title{font-size:1.05rem;}
+.intro-card.col .intro-lbl{display:none;}
+.intro-right{flex-shrink:0;display:flex;align-items:center;margin-left:.8rem;}
+.exp-btn{display:flex;align-items:center;gap:.36rem;background:var(--bg-surface);border:1px solid var(--bmd);border-radius:8px;padding:.32rem .78rem;cursor:pointer;color:var(--tx-s);font-family:'DM Sans',sans-serif;font-size:.76rem;font-weight:600;transition:all .2s;white-space:nowrap;}
+.exp-btn:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ══ LEGEND ══ */
+.legend{display:flex;align-items:center;gap:1rem;margin-bottom:.65rem;flex-wrap:wrap;}
+.leg-i{display:flex;align-items:center;gap:.32rem;font-size:.77rem;font-weight:500;color:var(--tx-s);}
+.leg-ic{width:21px;height:21px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;}
+.leg-ic.ok{background:var(--ok-bg);color:var(--ok);}
+.leg-ic.no{background:var(--no-bg);color:var(--no);}
+.leg-ic.pt{background:var(--pt-bg);color:var(--pt);}
+.leg-hint{margin-left:auto;font-size:.74rem;color:var(--tx-f);font-style:italic;}
+
+/* ══ ANALYSIS LAYOUT
+   Uses display:table for pixel-perfect row alignment between
+   the task column and every platform card column.
+══ */
+.ag{display:none;width:100%;}
+
+/* Shared table across task col and all visible platform cols */
+.agt{display:table;width:100%;border-collapse:separate;border-spacing:0;}
+.agt-body{display:table-row-group;}
+
+/* One row per task */
+.row-tr{display:table-row;}
+/* The task name cell */
+.tc{display:table-cell;vertical-align:middle;
+  width:196px;min-width:196px;
+  padding:.5rem .85rem;
+  background:var(--bg-card);
+  border-right:1px solid var(--bmd);
+  border-bottom:1px solid var(--blt);}
+.row-tr:last-child .tc{border-bottom:none;border-bottom-left-radius:12px;}
+.row-tr:first-child .tc{border-top-left-radius:12px;}
+/* Gap cell between task col and platforms */
+.gc{display:table-cell;width:.75rem;}
+/* Platform icon cell */
+.prc{display:table-cell;vertical-align:middle;
+  padding:.5rem .95rem;
+  background:var(--bg-card);
+  border-right:1px solid var(--blt);
+  border-bottom:1px solid var(--blt);}
+.row-tr:last-child .prc{border-bottom:none;}
+.row-tr:first-child .prc:last-child{border-top-right-radius:12px;}
+.row-tr:last-child .prc:last-child{border-bottom-right-radius:12px;}
+/* top border for first row of task col */
+.row-tr:first-child .tc{border-top:1px solid var(--bmd);}
+.row-tr:first-child .prc{border-top:1px solid var(--bmd);}
+/* left/right border on task col */
+.tc{border-left:1px solid var(--bmd);}
+/* right border on last platform col */
+.prc.last-col{border-right:1px solid var(--bmd);}
+/* bottom row corners for last platform col */
+.row-tr:last-child .prc.last-col{border-bottom-right-radius:12px;}
+.row-tr:first-child .prc.last-col{border-top-right-radius:12px;}
+
+/* Task row inner */
+.t-row-inner{display:flex;align-items:center;gap:.45rem;}
+.t-num{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;background:var(--bg-inset);border-radius:7px;font-family:'DM Mono',monospace;font-size:.72rem;font-weight:500;color:var(--gold);flex-shrink:0;}
+.t-name{font-size:.9rem;font-weight:500;color:var(--tx-b);line-height:1.3;flex:1;min-width:0;}
+.ti-btn{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--bg-inset);border:1px solid var(--bmd);cursor:pointer;font-style:italic;font-family:'Cormorant Garamond',serif;font-size:.72rem;font-weight:700;color:var(--tx-f);flex-shrink:0;transition:all .15s;}
+.ti-btn:hover{background:var(--gold);color:#fff;border-color:var(--gold);}
+
+/* Status icon + info btn */
+.pr-inner{display:inline-flex;align-items:center;gap:.32rem;white-space:nowrap;}
+.st{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:7px;font-size:.86rem;font-weight:700;line-height:1;flex-shrink:0;}
+.st.ok{background:var(--ok-bg);color:var(--ok);}
+.st.no{background:var(--no-bg);color:var(--no);}
+.st.pt{background:var(--pt-bg);color:var(--pt);}
+.ri-btn{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--bg-inset);border:1px solid var(--bmd);cursor:pointer;font-style:italic;font-family:'Cormorant Garamond',serif;font-size:.72rem;font-weight:700;color:var(--tx-f);flex-shrink:0;transition:all .15s;}
+.ri-btn:hover{background:var(--gold);color:#fff;border-color:var(--gold);}
+
+/* Platform header row above the table */
+.plat-hdr-row{display:flex;margin-bottom:.3rem;}
+.plat-hdr-spacer{width:196px;min-width:196px;flex-shrink:0;}
+.plat-hdr-gap{width:.75rem;flex-shrink:0;}
+.plat-hdrs{display:flex;flex:1;gap:0;}
+.plat-hdr-cell{flex:1;min-width:0;padding:0 .4rem;}
+.plat-hdr-cell:first-child{padding-left:0;}
+.plat-hdr-box{background:var(--bg-card);border:1px solid var(--bmd);border-radius:10px;padding:.52rem 1rem;display:flex;align-items:center;gap:.5rem;box-shadow:var(--sh1);}
+.ph-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.ph-name{font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:700;color:var(--tx-h);flex:1;line-height:1;}
+.ph-tag{font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.17rem .52rem;border-radius:5px;background:var(--bg-inset);color:var(--tx-f);flex-shrink:0;}
+
+/* Score bar row below table */
+.score-row{display:flex;margin-top:.3rem;}
+.score-spacer{width:196px;min-width:196px;flex-shrink:0;}
+.score-gap{width:.75rem;flex-shrink:0;}
+.scores-inner{display:flex;flex:1;gap:0;}
+.score-cell{flex:1;min-width:0;padding:0 .4rem;}
+.score-cell:first-child{padding-left:0;}
+.score-box{background:var(--bg-card);border:1px solid var(--bmd);border-radius:10px;padding:.7rem 1rem;display:flex;align-items:center;gap:.7rem;box-shadow:var(--sh1);}
+.sc-lbl{font-size:.66rem;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--tx-f);white-space:nowrap;}
+.sc-bar{flex:1;height:7px;background:var(--bg-inset);border-radius:100px;overflow:hidden;}
+.sc-fill{height:100%;border-radius:100px;width:0;transition:width 1.25s cubic-bezier(.22,1,.36,1);}
+.sc-pct{font-family:'DM Mono',monospace;font-size:.95rem;font-weight:500;min-width:38px;text-align:right;}
+
+/* per-platform score colours */
+.sc-trad .sc-fill{background:linear-gradient(90deg,var(--trad),#80C0E8);}
+.sc-trad .sc-pct{color:var(--trad);}
+.sc-gen  .sc-fill{background:linear-gradient(90deg,var(--gen),#B898F0);}
+.sc-gen  .sc-pct{color:var(--gen);}
+.sc-rag  .sc-fill{background:linear-gradient(90deg,var(--rag),#60D0A8);}
+.sc-rag  .sc-pct{color:var(--rag);}
+.sc-agnt .sc-fill{background:linear-gradient(90deg,var(--gold-lt),var(--copper));}
+.sc-agnt .sc-pct{color:var(--gold);}
+
+/* ══ CONTROLS BAR ══ */
+.ctrl-bar{position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--bg-card);border-top:1px solid var(--bmd);padding:.72rem 2.4rem;display:flex;align-items:center;justify-content:space-between;box-shadow:0 -4px 22px rgba(16,12,6,.09);}
+.step-info{display:flex;align-items:center;gap:.46rem;}
+.s-dot{width:9px;height:9px;border-radius:50%;background:var(--bg-inset);border:1px solid var(--bmd);transition:all .3s;}
+.s-dot.done{background:var(--ok);border-color:var(--ok);transform:scale(.88);}
+.s-dot.cur{background:var(--gold);border-color:var(--gold);transform:scale(1.38);}
+.s-lbl{font-size:.84rem;font-weight:600;color:var(--tx-s);margin-left:.5rem;}
+.ctrl-r{display:flex;align-items:center;gap:.72rem;}
+.kb-hint{display:flex;align-items:center;gap:.3rem;color:var(--tx-f);font-size:.75rem;}
+.kb{background:var(--bg-surface);border:1px solid var(--bmd);border-radius:5px;padding:.1rem .4rem;font-family:'DM Mono',monospace;font-size:.65rem;color:var(--tx-s);}
+.rst-btn{background:transparent;border:1px solid var(--bmd);border-radius:9px;padding:.5rem 1rem;cursor:pointer;color:var(--tx-s);font-family:'DM Sans',sans-serif;font-size:.83rem;font-weight:600;transition:all .2s;}
+.rst-btn:hover{border-color:var(--gold);color:var(--gold);}
+.nxt-btn{display:flex;align-items:center;gap:.55rem;background:linear-gradient(135deg,var(--gold-lt),var(--copper));color:#fff;border:none;border-radius:10px;padding:.62rem 1.5rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:700;letter-spacing:.04em;box-shadow:0 4px 18px rgba(181,134,28,.38);transition:all .2s;}
+.nxt-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 26px rgba(181,134,28,.50);}
+.nxt-btn:disabled{opacity:.34;cursor:not-allowed;transform:none;box-shadow:none;}
+
+/* ══ MODAL ══ */
+.modal-veil{display:none;position:fixed;inset:0;z-index:1000;background:rgba(4,8,18,.86);backdrop-filter:blur(14px) saturate(.4);align-items:center;justify-content:center;}
+.modal-veil.open{display:flex;}
+.champ-modal{position:relative;background:var(--bg-card);border:1px solid var(--bmd);border-radius:26px;width:94%;max-width:640px;overflow:hidden;box-shadow:0 60px 140px rgba(0,0,0,.6);animation:modalPop .55s cubic-bezier(.22,1,.36,1) forwards;}
+.modal-bar{height:5px;background:linear-gradient(90deg,var(--gold-dk),var(--gold-lt),var(--copper),var(--gold-lt),var(--gold-dk));background-size:400% 100%;animation:gflow 3.5s linear infinite;}
+@keyframes gflow{0%{background-position:0%}100%{background-position:400%}}
+.modal-body{padding:2.8rem 3.2rem 2.6rem;text-align:center;position:relative;}
+.modal-glow{position:absolute;top:0;left:50%;transform:translateX(-50%);width:360px;height:260px;background:radial-gradient(ellipse,rgba(181,134,28,.13),transparent 68%);pointer-events:none;}
+.mstars{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;overflow:hidden;}
+.mstar{position:absolute;width:4px;height:4px;background:var(--gold-lt);border-radius:50%;animation:twkl var(--d,2s) ease-in-out infinite;opacity:0;}
+@keyframes twkl{0%,100%{opacity:0;transform:scale(.5);}50%{opacity:.8;transform:scale(1.2);}}
+.modal-x{position:absolute;top:1.1rem;right:1.1rem;width:34px;height:34px;border-radius:50%;background:var(--bg-surface);border:1px solid var(--bmd);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tx-f);font-size:.95rem;transition:all .2s;z-index:2;}
+.modal-x:hover{background:var(--no);color:#fff;border-color:var(--no);}
+.modal-trophy{font-size:5rem;line-height:1;margin-bottom:1rem;position:relative;z-index:1;animation:tfloat 3s ease-in-out infinite;}
+@keyframes tfloat{0%,100%{transform:translateY(0) rotate(-3deg);}50%{transform:translateY(-9px) rotate(3deg);}}
+.modal-eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;}
+.modal-hl{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;color:var(--tx-s);margin-bottom:.28rem;}
+.modal-cn{font-family:'Cormorant Garamond',serif;font-size:3.2rem;font-weight:700;line-height:1;background:linear-gradient(135deg,var(--gold-lt),var(--copper) 55%,var(--gold-lt));background-size:300% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gflow 4s linear infinite;margin-bottom:.9rem;}
+.modal-desc{font-size:.96rem;line-height:1.72;color:var(--tx-s);max-width:490px;margin:0 auto 1.6rem;}
+.modal-pills{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.7rem;}
+.m-pill{display:flex;flex-direction:column;align-items:center;background:var(--bg-surface);border:1px solid var(--blt);border-radius:13px;padding:.75rem 1.1rem;min-width:110px;}
+.m-pill.win{border-color:var(--gold);border-width:2px;background:linear-gradient(160deg,rgba(181,134,28,.10),rgba(146,79,24,.06));box-shadow:0 4px 22px rgba(181,134,28,.22);}
+.m-pill-top{display:flex;align-items:center;gap:.3rem;margin-bottom:.42rem;}
+.mpd{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.m-pill-lbl{font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tx-f);}
+.m-pill.win .m-pill-lbl{color:var(--gold);}
+.m-pill-val{font-family:'DM Mono',monospace;font-size:1.45rem;font-weight:500;color:var(--tx-h);}
+.m-pill.win .m-pill-val{color:var(--gold);font-size:1.8rem;font-weight:700;}
+.modal-cta{background:linear-gradient(135deg,var(--gold-lt),var(--copper));color:#fff;border:none;border-radius:11px;padding:.85rem 2.5rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.96rem;font-weight:700;letter-spacing:.05em;box-shadow:0 6px 24px rgba(181,134,28,.44);transition:all .2s;}
+.modal-cta:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(181,134,28,.58);}
+
+/* ══ FLOATING TOOLTIP ══ */
+#ftip{display:none;position:fixed;z-index:9999;background:var(--tx-h);color:var(--bg-card);
+  font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:400;line-height:1.55;
+  padding:.62rem .9rem;border-radius:10px;max-width:270px;white-space:normal;
+  box-shadow:0 8px 32px rgba(0,0,0,.28);pointer-events:none;}
+#ftip::after{content:'';position:absolute;top:100%;left:18px;border:6px solid transparent;border-top-color:var(--tx-h);}
+
+/* ══ ANIMATIONS ══ */
+@keyframes fadeUp{to{opacity:1;transform:translateY(0);}}
+@keyframes modalPop{from{opacity:0;transform:scale(.78) translateY(36px);}to{opacity:1;transform:scale(1) translateY(0);}}
+#fw{position:fixed;inset:0;z-index:900;pointer-events:none;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:var(--bg-surface);}
+::-webkit-scrollbar-thumb{background:var(--bmd);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:var(--gold);}
+</style>
+</head>
+<body>
+<canvas id="fw"></canvas>
+<div id="ftip"></div>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-brand">
+    <div class="hdr-emblem"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+    <div>
+      <div class="hdr-name">AgentIQ Finance</div>
+      <div class="hdr-tagline">AI Capability Intelligence Portal</div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-badge">Finance Workshops · 2026 Edition</div>
+    <button class="theme-btn" onclick="toggleTheme()"><span id="thIco">🌙</span><span id="thLbl">Dark Mode</span></button>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-h">AI Platform <em>Capability</em> Comparison</div>
+      <div class="hero-p">Discover how Traditional AI, Generative AI, RAG, and Agentic AI perform across critical banking workflows — task by task, with transparent scoring.</div>
+    </div>
+    <div class="hero-stats">
+      <div class="h-stat"><div class="h-stat-v">4</div><div class="h-stat-l">Platforms</div></div>
+      <div class="h-stat"><div class="h-stat-v">3</div><div class="h-stat-l">Use Cases</div></div>
+      <div class="h-stat"><div class="h-stat-v">24</div><div class="h-stat-l">Tasks</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<nav class="tabs-wrap">
+  <button class="tab on" onclick="switchTab(0)" id="tb0"><span class="tab-n">01</span>Loan Origination &amp; Credit Underwriting</button>
+  <button class="tab" onclick="switchTab(1)" id="tb1"><span class="tab-n">02</span>Fraud Detection &amp; AML Compliance</button>
+  <button class="tab" onclick="switchTab(2)" id="tb2"><span class="tab-n">03</span>Wealth Management &amp; Client Advisory</button>
+</nav>
+
+<!-- STAGE -->
+<div class="stage">
+
+<!-- WELCOME -->
+<div id="welcome" class="welcome">
+  <div class="welcome-ico">🏦</div>
+  <div class="welcome-h">Select a Banking Use Case</div>
+  <div class="welcome-p">Choose one of the three use cases below — or click a tab above — to explore how each AI platform performs across every step of the process.</div>
+  <div class="welcome-cards">
+    <div class="uc-card" onclick="switchTab(0)">
+      <div class="uc-emo">🏦</div><div class="uc-n">Use Case 01 · Banking Ops</div>
+      <div class="uc-ttl">Loan Origination &amp; Credit Underwriting</div>
+      <div class="uc-p">End-to-end loan processing from application intake through credit scoring, KYC verification, risk assessment, and disbursement.</div>
+    </div>
+    <div class="uc-card" onclick="switchTab(1)">
+      <div class="uc-emo">🛡️</div><div class="uc-n">Use Case 02 · Risk &amp; Compliance</div>
+      <div class="uc-ttl">Fraud Detection &amp; AML Compliance</div>
+      <div class="uc-p">Real-time fraud monitoring, anomaly detection, AML investigation, regulatory reporting, and adaptive model retraining.</div>
+    </div>
+    <div class="uc-card" onclick="switchTab(2)">
+      <div class="uc-emo">💼</div><div class="uc-n">Use Case 03 · Client Advisory</div>
+      <div class="uc-ttl">Wealth Management &amp; Client Advisory</div>
+      <div class="uc-p">Personalised investment guidance spanning client profiling, portfolio analysis, market research, MiFID II compliance, and trade execution.</div>
+    </div>
+  </div>
+</div>
+
+<!-- UC PANELS -->
+<div class="panel" id="p0"></div>
+<div class="panel" id="p1"></div>
+<div class="panel" id="p2"></div>
+
+</div><!-- /stage -->
+
+<!-- CONTROLS -->
+<div class="ctrl-bar">
+  <div class="step-info">
+    <div class="s-dot" id="sd0"></div><div class="s-dot" id="sd1"></div><div class="s-dot" id="sd2"></div>
+    <div class="s-dot" id="sd3"></div><div class="s-dot" id="sd4"></div><div class="s-dot" id="sd5"></div>
+    <div class="s-dot" id="sd6"></div><div class="s-dot" id="sd7"></div><div class="s-dot" id="sd8"></div>
+    <span class="s-lbl" id="sLbl">Select a Use Case to Begin</span>
+  </div>
+  <div class="ctrl-r">
+    <div class="kb-hint"><span class="kb">→</span><span class="kb">Enter</span><span style="color:var(--tx-f);font-size:.74rem">advance</span></div>
+    <button class="rst-btn" onclick="resetTab()">↺ Reset</button>
+    <button class="nxt-btn" id="nBtn" onclick="advance()"><span id="nLbl">Show Tasks</span><span>→</span></button>
+  </div>
+</div>
+
+<!-- CHAMPION MODAL -->
+<div class="modal-veil" id="mv">
+  <div class="champ-modal">
+    <div class="modal-bar"></div>
+    <div class="modal-body">
+      <div class="modal-glow"></div>
+      <div class="mstars" id="mStars"></div>
+      <div class="modal-x" onclick="closeM()">✕</div>
+      <div class="modal-trophy">🏆</div>
+      <div class="modal-eyebrow">Platform Champion · Declared</div>
+      <div class="modal-hl">The Undisputed Leader Is</div>
+      <div class="modal-cn">Agentic AI</div>
+      <div class="modal-desc" id="mD"></div>
+      <div class="modal-pills">
+        <div class="m-pill"><div class="m-pill-top"><div class="mpd" style="background:var(--trad)"></div><div class="m-pill-lbl">Traditional AI</div></div><div class="m-pill-val" id="ms0">—</div></div>
+        <div class="m-pill"><div class="m-pill-top"><div class="mpd" style="background:var(--gen)"></div><div class="m-pill-lbl">Generative AI</div></div><div class="m-pill-val" id="ms1">—</div></div>
+        <div class="m-pill"><div class="m-pill-top"><div class="mpd" style="background:var(--rag)"></div><div class="m-pill-lbl">RAG</div></div><div class="m-pill-val" id="ms2">—</div></div>
+        <div class="m-pill win"><div class="m-pill-top"><div class="mpd" style="background:var(--gold)"></div><div class="m-pill-lbl">🏆 Agentic AI</div></div><div class="m-pill-val" id="ms3">—</div></div>
+      </div>
+      <button class="modal-cta" onclick="closeM()">Close &amp; Continue Exploring</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════
+   DATA — status: ok=100% capable, pt=conditional, no=not capable
+   Scores count only 'ok' tasks as fully executed.
+═══════════════════════════════════════ */
+const UC=[
+ {
+  tasks:[
+   {n:'Application intake & data capture',      tip:'Collect borrower personal, financial and employment data via digital forms, with AI pre-filling from uploaded documents to minimise manual entry.'},
+   {n:'Credit score retrieval & bureau checks', tip:'Pull CIBIL/Equifax/Experian scores and full bureau reports in real-time to assess historical creditworthiness and existing debt obligations.'},
+   {n:'Document verification (KYC / income)',   tip:'Validate identity proofs, income slips, tax returns and bank statements using OCR and NLP to confirm authenticity and data consistency.'},
+   {n:'Risk scoring & model evaluation',        tip:'Apply proprietary risk models combining bureau data, income ratios, employment stability and collateral valuation to compute probability of default (PD).'},
+   {n:'Regulatory compliance assessment',       tip:'Check the loan application against RBI guidelines, FEMA, sectoral exposure limits and internal credit policy to flag regulatory breaches before approval.'},
+   {n:'Loan decision & terms generation',       tip:'Produce a structured approval or rejection with sanctioned amount, interest rate, tenure, EMI schedule and personalised conditions.'},
+   {n:'Customer communication & Q&A',           tip:'Respond to applicant queries about status, required documents and terms via conversational interfaces, reducing branch visits and call-centre load.'},
+   {n:'End-to-end workflow orchestration',      tip:'Coordinate all systems — CRM, LOS, bureau APIs, compliance engines and communication channels — in a single automated pipeline without human handoffs.'},
+  ],
+  platforms:[
+   {name:'Traditional AI',tag:'ML · Rules',cls:'trad',dot:'var(--trad)',
+    rows:[
+     {s:'ok',tip:'Parses structured form inputs, validates field formats and routes data to downstream systems via rule-based pipelines — a well-established ML use case.'},
+     {s:'ok',tip:'Rule-based API calls to bureau endpoints are deterministic and highly reliable — a core strength of traditional integration frameworks.'},
+     {s:'no',tip:'Limitation: Document understanding requires reading unstructured PDFs and images. Traditional AI lacks OCR-to-semantic-reasoning capability needed for nuanced KYC checks.'},
+     {s:'ok',tip:'Logistic regression, gradient boosting and scorecard models are the industry standard for PD estimation using tabular financial data.'},
+     {s:'ok',tip:'Compliance rules codified as hard business rules are deterministic and auditable — Traditional AI excels at rule-matching against policy frameworks.'},
+     {s:'no',tip:'Limitation: Generating natural language loan letters and personalised term sheets requires language generation capability absent in traditional ML models.'},
+     {s:'no',tip:'Limitation: Conversational NLU is not possible. Traditional AI can send templated alerts but cannot handle open-ended customer dialogue.'},
+     {s:'no',tip:'Limitation: Siloed ML models cannot orchestrate multi-system workflows. Manual handoffs between teams are required to bridge system boundaries.'},
+    ],score:'50%',sv:50},
+   {name:'Generative AI',tag:'LLM · GPT',cls:'gen',dot:'var(--gen)',
+    rows:[
+     {s:'ok',tip:'LLMs extract fields from free-text emails, PDFs and voice transcripts, dramatically reducing manual data entry at intake.'},
+     {s:'no',tip:'Limitation: No live API integration. Gen AI has no access to real-time bureau endpoints — fabricated results are unacceptable for credit decisions.'},
+     {s:'ok',tip:'Multimodal LLMs read, interpret and cross-validate scanned ID documents, salary slips and bank statements against stated values.'},
+     {s:'pt',tip:'Conditional: Can interpret risk scores produced by traditional models and explain them in language, but cannot independently compute a statistically valid PD.'},
+     {s:'pt',tip:'Conditional: Can map application attributes against regulatory text if policy documents are provided in context, but accuracy depends on context quality.'},
+     {s:'ok',tip:'Generates personalised sanction letters, offer sheets and rejection notices in professional language with contextualised explanations.'},
+     {s:'ok',tip:'Conversational chatbots powered by LLMs handle complex loan queries, status updates and document requests effectively.'},
+     {s:'no',tip:'Limitation: No agency. Gen AI can draft instructions but cannot autonomously trigger API calls, update systems or coordinate multi-step workflows.'},
+    ],score:'44%',sv:44},
+   {name:'RAG',tag:'Retrieval AI',cls:'rag',dot:'var(--rag)',
+    rows:[
+     {s:'ok',tip:'Retrieves pre-fill data from existing customer records in CRM/KYC repositories to auto-populate forms, reducing friction and errors at intake.'},
+     {s:'ok',tip:'RAG can be connected to live bureau APIs as retrieval sources, providing grounded, real-time credit data to the LLM reasoning layer.'},
+     {s:'ok',tip:'Retrieves historical verified document patterns and fraud cases to cross-reference current submissions, improving verification accuracy.'},
+     {s:'pt',tip:'Conditional: Retrieves comparable loan profiles and historical default data to ground risk assessments, but final PD computation still depends on a quantitative model.'},
+     {s:'ok',tip:'Retrieves exact regulatory clauses from structured compliance repositories, ensuring policy checks are grounded in the latest RBI/SEBI guidelines with full citations.'},
+     {s:'ok',tip:'Retrieves standard loan terms, precedent decisions and product templates to generate highly accurate, consistent offer letters.'},
+     {s:'ok',tip:'Retrieves FAQs, product guides and customer history to give highly contextualised, accurate answers significantly better than pure Gen AI.'},
+     {s:'pt',tip:'Conditional: RAG improves information retrieval across systems but still lacks autonomous execution. Requires an orchestration layer or human to trigger cross-system actions.'},
+    ],score:'75%',sv:75},
+   {name:'Agentic AI',tag:'Autonomous',cls:'agnt',dot:'var(--gold)',
+    rows:[
+     {s:'ok',tip:'Autonomously extracts, validates and submits intake data via multi-step tool calls — pulling from emails, documents and portals without human intervention.'},
+     {s:'ok',tip:'Agent calls bureau APIs directly as tools, retrieves scores in real-time, parses reports and stores results in the LOS — fully automated with audit logging.'},
+     {s:'ok',tip:'Uses multimodal tools to read and verify documents, cross-references against sanctions lists and fraud databases, and flags anomalies — end-to-end.'},
+     {s:'ok',tip:'Orchestrates traditional risk models as sub-tools, interprets outputs, enriches with retrieved context and produces a final explainable risk decision.'},
+     {s:'ok',tip:'Retrieves current regulatory frameworks, applies them deterministically, generates a compliance memo and escalates only on exceptions — fully autonomous.'},
+     {s:'ok',tip:'Generates, validates and issues the loan decision document autonomously — updating the LOS, triggering disbursement workflows and archiving all evidence.'},
+     {s:'ok',tip:'Proactively contacts applicants via preferred channels, answers real-time queries, escalates complex issues and logs all interactions — 24/7.'},
+     {s:'ok',tip:'Orchestrates the entire LOS pipeline — from intake through disbursement — across all integrated systems autonomously, with human oversight only for policy exceptions.'},
+    ],score:'100%',sv:100},
+  ]
+ },
+ {
+  tasks:[
+   {n:'Real-time transaction monitoring',     tip:'Continuously scan every transaction as it occurs — evaluating velocity, geography, amount patterns and counterparty risk to flag suspicious activity before settlement.'},
+   {n:'Anomaly & pattern detection',          tip:'Identify deviations from a customer behaviour baseline using statistical models and graph analytics to surface hidden fraud rings and mule networks.'},
+   {n:'Customer & entity risk profiling',     tip:'Build comprehensive risk profiles from KYC data, transaction history, adverse news, PEP/sanctions screening and network linkages — updated continuously.'},
+   {n:'Alert triage & case investigation',    tip:'Prioritise fraud alerts by risk severity, gather supporting evidence across systems, and produce a structured investigation dossier for analyst review or autonomous resolution.'},
+   {n:'SAR / regulatory report generation',   tip:'Produce Suspicious Activity Reports and Currency Transaction Reports in the regulatory format required by FIU-IND/FinCEN — narrative, evidence, and filing metadata.'},
+   {n:'Cross-system data correlation',        tip:'Join signals from core banking, card systems, trade finance, CRM, external threat intelligence feeds and sanctions databases to identify patterns invisible in any single system.'},
+   {n:'Customer dispute & communication',     tip:'Handle customer queries about blocked transactions, chargeback claims and fraud notifications with consistent, compliant communication.'},
+   {n:'Model retraining & threat adaptation', tip:'Continuously update fraud detection models with new labelled cases, emerging typologies and investigation feedback — reducing model decay without manual ML engineer intervention.'},
+  ],
+  platforms:[
+   {name:'Traditional AI',tag:'ML · Rules',cls:'trad',dot:'var(--trad)',
+    rows:[
+     {s:'ok',tip:'Real-time scoring engines processing thousands of transactions per second with sub-millisecond latency is the core strength of traditional ML fraud models.'},
+     {s:'ok',tip:'Statistical anomaly models (Isolation Forest, autoencoders) are effective at identifying known deviation patterns from established baselines in structured data.'},
+     {s:'pt',tip:'Conditional: Rule-based risk scores from KYC attributes and transaction history are reliable for structured profiling within a single data domain, but miss unstructured signals.'},
+     {s:'no',tip:'Limitation: Alert triage requires reading unstructured case notes, synthesising evidence and applying judgment — tasks requiring language understanding absent in traditional ML.'},
+     {s:'no',tip:'Limitation: SAR narratives must be written in coherent legal language. Traditional AI cannot generate natural language regulatory reports.'},
+     {s:'no',tip:'Limitation: Siloed models cannot join signals across disparate systems without a dedicated ETL/integration pipeline requiring significant engineering.'},
+     {s:'no',tip:'Limitation: No natural language capability. Customer communication is limited to templated rule-triggered alerts without conversational understanding.'},
+     {s:'pt',tip:'Conditional: Models can be retrained on new labelled data but require manual feature engineering, pipeline rebuilding and MLOps — not autonomous adaptation.'},
+    ],score:'25%',sv:25},
+   {name:'Generative AI',tag:'LLM · GPT',cls:'gen',dot:'var(--gen)',
+    rows:[
+     {s:'no',tip:'Limitation: Gen AI has no access to live transaction streams. Monitoring requires real-time data pipelines and sub-second inference — incompatible with batch-oriented LLMs.'},
+     {s:'no',tip:'Limitation: Anomaly detection requires statistical modelling on high-volume numerical data. Gen AI lacks quantitative modelling capability for reliable anomaly scores.'},
+     {s:'pt',tip:'Conditional: Can synthesise unstructured adverse news and investigation notes into narrative risk profiles, but lacks structured scoring and live data access.'},
+     {s:'ok',tip:'Excellent at reading alert details, pulling evidence from documents and case notes, and producing a structured investigation summary for analyst review.'},
+     {s:'ok',tip:'Generates compliant, coherent SAR narratives from investigation summaries — reducing the most time-consuming step in the AML workflow.'},
+     {s:'pt',tip:'Conditional: Can synthesise information across documents if provided in context, but cannot independently query and join data across live disparate systems.'},
+     {s:'ok',tip:'Handles customer queries about disputed transactions, explains fraud blocks and guides through chargeback processes with empathetic, precise language.'},
+     {s:'no',tip:'Limitation: Static training data. Gen AI cannot autonomously trigger model retraining pipelines or update its own feature engineering for new fraud typologies.'},
+    ],score:'38%',sv:38},
+   {name:'RAG',tag:'Retrieval AI',cls:'rag',dot:'var(--rag)',
+    rows:[
+     {s:'ok',tip:'Can be connected to real-time transaction feeds as a retrieval source, enabling the LLM to query and reason over live transaction data with full grounding.'},
+     {s:'pt',tip:'Conditional: Retrieves historical fraud typology documents to ground anomaly reasoning, but still relies on a quantitative model for actual anomaly scoring.'},
+     {s:'ok',tip:'Retrieves adverse media, sanctions lists, PEP databases and prior investigation reports to build grounded, citable entity risk profiles with high accuracy.'},
+     {s:'ok',tip:'Retrieves prior similar cases and investigation playbooks from case management systems, dramatically improving investigation quality and consistency.'},
+     {s:'ok',tip:'Retrieves exact SAR templates, regulatory guidance notes and prior approved filings to generate compliant reports with precise language and citations.'},
+     {s:'ok',tip:'Designed for cross-system retrieval — can query multiple vector stores and structured databases simultaneously to correlate signals from disparate sources.'},
+     {s:'ok',tip:'Retrieves account history, prior dispute outcomes and product terms to give highly accurate, contextualised customer responses.'},
+     {s:'no',tip:'Limitation: RAG retrieves but does not act. Triggering model retraining pipelines requires autonomous execution capability that RAG alone does not provide.'},
+    ],score:'75%',sv:75},
+   {name:'Agentic AI',tag:'Autonomous',cls:'agnt',dot:'var(--gold)',
+    rows:[
+     {s:'ok',tip:'Agent subscribes to real-time transaction event streams, applies scoring tools, and autonomously blocks suspect transactions — end-to-end without human involvement.'},
+     {s:'ok',tip:'Orchestrates statistical anomaly models as sub-tools, enriches with network graph analysis, and produces explainable anomaly reports at scale.'},
+     {s:'ok',tip:'Continuously retrieves and synthesises data from KYC, adverse media, sanctions APIs and transaction history to maintain living risk profiles — updated in real time.'},
+     {s:'ok',tip:'Autonomously triages all alerts by risk level, gathers cross-system evidence, investigates cases and resolves or escalates — reducing case closure time from days to minutes.'},
+     {s:'ok',tip:'Generates, validates and submits SARs and CTRs autonomously — including narrative, evidence attachments and XML/JSON filing formats — with a full audit trail.'},
+     {s:'ok',tip:'Natively orchestrates data retrieval across all integrated systems — core banking, card, trade, CRM, sanctions — joining signals no single-system model can see.'},
+     {s:'ok',tip:'Proactively contacts customers about fraud events, guides through dispute processes, and resolves standard cases autonomously — 24/7 with full interaction logging.'},
+     {s:'ok',tip:'Monitors model performance, identifies concept drift, triggers retraining pipelines with new labelled cases, and validates updated models before production deployment.'},
+    ],score:'100%',sv:100},
+  ]
+ },
+ {
+  tasks:[
+   {n:'Client risk profiling & KYC',               tip:'Assess client investment objectives, time horizon, risk tolerance, liquidity needs and tax situation through questionnaires enriched with behavioural data and engagement history.'},
+   {n:'Portfolio performance analysis',             tip:'Evaluate current portfolio holdings against benchmarks, compute alpha, Sharpe ratio, drawdowns and factor exposures — providing the analytical foundation for advisory actions.'},
+   {n:'Market research & intelligence',             tip:'Synthesise macro-economic indicators, equity research, fixed income analysis, geopolitical risk and sector news into actionable intelligence tailored to the client\'s portfolio.'},
+   {n:'Personalised investment recommendations',    tip:'Generate bespoke investment recommendations — specific securities, funds or rebalancing actions — aligned with the client\'s risk profile, goals and current market conditions.'},
+   {n:'Regulatory suitability checks (MiFID II)',   tip:'Validate every recommendation against MiFID II suitability requirements — ensuring the product matches the client\'s knowledge, experience, financial situation and investment objectives.'},
+   {n:'Client report & statement generation',       tip:'Produce personalised portfolio statements, performance reviews and advisory reports in plain language — replacing generic template documents with insight-rich communications.'},
+   {n:'Proactive client outreach & Q&A',            tip:'Initiate client contact on market-moving events relevant to their portfolio, answer complex investment queries, and schedule advisor calls — acting as an always-on digital RM.'},
+   {n:'Rebalancing & trade execution',              tip:'Execute approved portfolio rebalancing instructions through OMS/trading systems — placing orders, managing execution risk, confirming fills and updating portfolio records with full audit trails.'},
+  ],
+  platforms:[
+   {name:'Traditional AI',tag:'ML · Rules',cls:'trad',dot:'var(--trad)',
+    rows:[
+     {s:'ok',tip:'Clustering and classification models effectively segment clients into risk bands using structured questionnaire and demographic data — a well-established quantitative use case.'},
+     {s:'ok',tip:'Quantitative analytics engines compute all standard performance metrics (alpha, beta, Sharpe, VaR) with precision — the foundational strength of traditional quant models.'},
+     {s:'no',tip:'Limitation: Synthesising unstructured research reports, news feeds and analyst commentary requires NLP and language understanding absent in traditional ML.'},
+     {s:'pt',tip:'Conditional: Mean-variance optimisation generates quantitative recommendations, but lacks personalised language generation and cannot explain rationale in natural language.'},
+     {s:'ok',tip:'Rules engines codify MiFID II suitability criteria as deterministic checks — flagging mismatches between product attributes and client classification with high reliability.'},
+     {s:'no',tip:'Limitation: Generating personalised narrative reports requires language generation. Traditional AI produces data tables but not human-readable advisory content.'},
+     {s:'no',tip:'Limitation: No NLU capability. Proactive communication is limited to templated alerts — no conversational understanding for complex advisory Q&A.'},
+     {s:'pt',tip:'Conditional: Optimisation algorithms generate rebalancing weights, but trade execution requires system integration and autonomous action capability not inherent to traditional ML.'},
+    ],score:'38%',sv:38},
+   {name:'Generative AI',tag:'LLM · GPT',cls:'gen',dot:'var(--gen)',
+    rows:[
+     {s:'ok',tip:'Conducts rich conversational client discovery interviews, processes free-text responses and synthesises a comprehensive risk profile narrative.'},
+     {s:'pt',tip:'Conditional: Can interpret and summarise portfolio analytics reports provided as context. Cannot independently compute quantitative metrics without integration with analytics tools.'},
+     {s:'ok',tip:'Reads and synthesises large volumes of equity research, news, analyst reports and macro commentary into concise, personalised market intelligence summaries.'},
+     {s:'ok',tip:'Generates personalised, well-reasoned investment recommendations in natural language — explaining rationale, risks and alignment with client objectives.'},
+     {s:'pt',tip:'Conditional: Can assess recommendation suitability against MiFID II criteria defined in context, but accuracy depends on how completely the regulatory rules are provided.'},
+     {s:'ok',tip:'Generates highly personalised, narrative-rich portfolio statements and advisory letters — a flagship Gen AI use case in wealth management.'},
+     {s:'ok',tip:'Handles complex investment Q&A, explains market events in portfolio context, and drafts proactive client outreach messages.'},
+     {s:'no',tip:'Limitation: No action capability. Gen AI can generate rebalancing instructions but cannot connect to OMS or trading systems to execute trades.'},
+    ],score:'63%',sv:63},
+   {name:'RAG',tag:'Retrieval AI',cls:'rag',dot:'var(--rag)',
+    rows:[
+     {s:'ok',tip:'Retrieves prior client interaction history, investment preferences and life events from CRM to produce richly grounded, contextualised risk profiles.'},
+     {s:'ok',tip:'Retrieves live portfolio data, benchmark values and prior performance reports to ground analysis in current, verified numbers with full data citations.'},
+     {s:'ok',tip:'Retrieves latest analyst research, earnings reports, macro data releases and news feeds in real-time to provide always-current, grounded market intelligence.'},
+     {s:'ok',tip:'Combines retrieved market data, research and client profile to generate well-grounded, explainable investment recommendations with cited evidence.'},
+     {s:'ok',tip:'Retrieves exact MiFID II regulation text, product fact sheets and client classifications to perform grounded, auditable suitability assessments with full regulatory citations.'},
+     {s:'ok',tip:'Retrieves current portfolio data and market context to produce highly accurate, data-rich reports with precise figures and verifiable sources.'},
+     {s:'ok',tip:'Retrieves client-specific portfolio context and recent market events to trigger and personalise proactive outreach.'},
+     {s:'no',tip:'Limitation: RAG retrieves and reasons but cannot execute. Connecting to OMS, placing orders and managing trade lifecycle requires autonomous action capability beyond RAG\'s scope.'},
+    ],score:'88%',sv:88},
+   {name:'Agentic AI',tag:'Autonomous',cls:'agnt',dot:'var(--gold)',
+    rows:[
+     {s:'ok',tip:'Conducts comprehensive onboarding, retrieves all relevant history and regulatory records, and maintains a continuously updated living risk profile.'},
+     {s:'ok',tip:'Queries portfolio management systems directly, runs quantitative analysis tools, and produces a comprehensive analytics report — all orchestrated autonomously.'},
+     {s:'ok',tip:'Autonomously retrieves, reads and synthesises real-time market data, research reports and news feeds to produce always-current, deeply personalised market intelligence.'},
+     {s:'ok',tip:'Orchestrates analytics tools, research retrieval and reasoning to produce multi-factor investment recommendations personalised for each client at scale.'},
+     {s:'ok',tip:'Autonomously runs MiFID II suitability checks against live regulatory rules, flags issues, suggests compliant alternatives and logs the assessment for regulatory audit.'},
+     {s:'ok',tip:'Autonomously generates, formats and delivers bespoke portfolio reports and advisory letters for each client, at any frequency, with zero manual effort.'},
+     {s:'ok',tip:'Proactively monitors client portfolios, detects material market events, initiates personalised outreach across preferred channels, and handles Q&A — 24/7 digital RM.'},
+     {s:'ok',tip:'Connects to OMS tools, places orders on approved rebalancing instructions, manages execution, confirms fills and updates records — closing the full advisory loop autonomously.'},
+    ],score:'100%',sv:100},
+  ]
+ }
+];
+
+const SCORES=[
+ {t:'50%',g:'44%',r:'75%',a:'100%'},
+ {t:'25%',g:'38%',r:'75%',a:'100%'},
+ {t:'38%',g:'63%',r:'88%',a:'100%'}
+];
+const DESCS=[
+ 'Agentic AI achieves 100% task coverage across the entire loan origination lifecycle — from application intake through compliance and customer communication. What Traditional AI, Gen AI, and RAG can only partially address, Agentic AI orchestrates end-to-end, autonomously.',
+ 'Agentic AI achieves 100% coverage in fraud detection and AML compliance — monitoring transactions, investigating alerts, filing regulatory reports, communicating with customers, and adapting its own detection models, all autonomously, around the clock.',
+ 'Agentic AI is the complete digital wealth advisor — profiling clients, analysing portfolios, generating personalised advice, validating MiFID II suitability, communicating proactively, and executing approved rebalancing trades autonomously with full audit trails.'
+];
+const SLBLS=['Use Case Overview','Tasks Listed','Traditional AI — Expanded','Traditional AI — Summary','Gen AI — Expanded','Gen AI — Summary','RAG — Expanded','RAG — Summary','Agentic AI — Full View'];
+const BLBLS=['Show Tasks','Reveal Traditional AI','Confirm Traditional AI','Reveal Gen AI','Confirm Gen AI','Reveal RAG','Confirm RAG','Reveal Agentic AI','—'];
+const UC_META=[
+ {emo:'🏦',lbl:'Use Case 01 · Banking Operations',title:'Loan Origination & Credit Underwriting',body:'An end-to-end banking process evaluating, approving, and disbursing loans — spanning application intake, credit scoring, document verification, risk assessment, compliance checks, loan decisioning, customer communication, and full workflow orchestration.'},
+ {emo:'🛡️',lbl:'Use Case 02 · Risk & Compliance',title:'Fraud Detection & AML Compliance',body:'A mission-critical process identifying, investigating, and reporting suspicious financial activity — combining real-time transaction monitoring, anomaly detection, entity risk profiling, alert triage, SAR/CTR regulatory filings, cross-system data correlation, customer dispute management, and continuous adaptive model retraining.'},
+ {emo:'💼',lbl:'Use Case 03 · Client Advisory',title:'Wealth Management & Client Advisory',body:'A relationship-intensive financial service delivering personalised investment guidance — combining client risk profiling, portfolio analysis, real-time market research, recommendation generation, MiFID II suitability validation, bespoke reporting, proactive client outreach, and automated portfolio rebalancing with trade execution oversight.'}
+];
+
+let tab=0, step=0, dark=false, started=false;
+const builtPanels=new Set();
+
+/* ═══════════ THEME ═══════════ */
+function toggleTheme(){dark=!dark;document.body.classList.toggle('dark',dark);document.getElementById('thIco').textContent=dark?'☀️':'🌙';document.getElementById('thLbl').textContent=dark?'Light Mode':'Dark Mode';}
+
+/* ═══════════ FLOATING TOOLTIP ═══════════ */
+const ft=document.getElementById('ftip');
+function attachTip(el,text){
+  el.addEventListener('mouseenter',()=>{
+    ft.textContent=text;ft.style.display='block';
+    requestAnimationFrame(()=>{
+      const r=el.getBoundingClientRect();
+      const fh=ft.offsetHeight,fw=ft.offsetWidth;
+      let top=r.top-fh-10,left=r.left;
+      if(top<4) top=r.bottom+6;
+      if(left+fw>window.innerWidth-6) left=window.innerWidth-fw-6;
+      if(left<4) left=4;
+      ft.style.top=top+'px';ft.style.left=left+'px';
+    });
+  });
+  el.addEventListener('mouseleave',()=>{ft.style.display='none';});
+}
+
+/* ═══════════ BUILD PANEL (once per tab) ═══════════ */
+function buildPanel(t){
+  if(builtPanels.has(t)) return;
+  builtPanels.add(t);
+  const uc=UC[t], meta=UC_META[t];
+  const panel=document.getElementById('p'+t);
+  panel.innerHTML='';
+
+  /* ── Intro card ── */
+  const iw=el('div','intro-wrap');iw.id='iw'+t;
+  const ic=el('div','intro-card');ic.id='ic'+t;
+  const iemo=el('div','intro-emo');iemo.textContent=meta.emo;
+  const ileft=el('div','intro-left');
+  const ilbl=el('div','intro-lbl');ilbl.textContent=meta.lbl;
+  const ititle=el('div','intro-title');ititle.innerHTML=meta.title.replace('&','&amp;');
+  const ibwrap=el('div','intro-bwrap');ibwrap.id='ibw'+t;ibwrap.style.maxHeight='200px';ibwrap.style.opacity='1';
+  const ibody=el('div','intro-body');ibody.textContent=meta.body;
+  ibwrap.appendChild(ibody);
+  ileft.appendChild(ilbl);ileft.appendChild(ititle);ileft.appendChild(ibwrap);
+  const iright=el('div','intro-right');iright.id='ir'+t;iright.style.display='none';
+  const eb=el('button','exp-btn');eb.id='eb'+t;eb.textContent='▼ Show Details';
+  eb.onclick=()=>toggleIntro(t);
+  iright.appendChild(eb);
+  ic.appendChild(iemo);ic.appendChild(ileft);ic.appendChild(iright);
+  iw.appendChild(ic);panel.appendChild(iw);
+
+  /* ── Analysis grid ── */
+  const ag=el('div','ag');ag.id='ag'+t;
+
+  /* Legend */
+  ag.innerHTML+=`<div class="legend">
+    <div class="leg-i"><div class="leg-ic ok">✓</div> 100% Capable</div>
+    <div class="leg-i"><div class="leg-ic pt">−</div> Conditionally Capable</div>
+    <div class="leg-i"><div class="leg-ic no">✗</div> Not Capable</div>
+    <div class="leg-hint">Hover <em style="font-family:'Cormorant Garamond',serif;font-size:.85rem;font-weight:700;font-style:italic;">i</em> for details</div>
+  </div>`;
+
+  /* Platform header row */
+  const phr=el('div','plat-hdr-row');phr.id='phr'+t;
+  const phs=el('div','plat-hdr-spacer');
+  const phg=el('div','plat-hdr-gap');
+  const phd=el('div','plat-hdrs');phd.id='phd'+t;
+  phr.appendChild(phs);phr.appendChild(phg);phr.appendChild(phd);
+  ag.appendChild(phr);
+
+  /* Table */
+  const agt=el('div','agt');agt.id='agt'+t;
+  const body=el('div','agt-body');body.id='rows'+t;
+  agt.appendChild(body);ag.appendChild(agt);
+
+  /* Score row */
+  const sr=el('div','score-row');
+  const ss=el('div','score-spacer');
+  const sg=el('div','score-gap');
+  const si=el('div','scores-inner');si.id='si'+t;
+  sr.appendChild(ss);sr.appendChild(sg);sr.appendChild(si);ag.appendChild(sr);
+
+  panel.appendChild(ag);
+
+  /* ── Build table rows ── */
+  const NT=uc.tasks.length, NP=uc.platforms.length;
+  uc.tasks.forEach((task,ri)=>{
+    const tr=el('div','row-tr');tr.id='tr'+t+'_'+ri;
+    tr.style.opacity='0';tr.style.transform='translateX(-14px)';tr.style.transition='opacity .32s,transform .32s';
+
+    /* Task cell */
+    const tc=el('div','tc');
+    const tri2=el('div','t-row-inner');
+    const tnum=el('span','t-num');tnum.textContent='T'+(ri+1);
+    const tname=el('span','t-name');tname.innerHTML=task.n.replace('&','&amp;');
+    const tib=el('button','ti-btn');tib.textContent='i';attachTip(tib,task.tip);
+    tri2.appendChild(tnum);tri2.appendChild(tname);tri2.appendChild(tib);
+    tc.appendChild(tri2);tr.appendChild(tc);
+
+    /* Gap cell */
+    tr.appendChild(el('div','gc'));
+
+    /* Platform cells */
+    uc.platforms.forEach((plat,pi)=>{
+      const prc=el('div','prc');
+      prc.id='prc'+t+'_'+ri+'_'+pi;
+      prc.style.display='none';
+      if(pi===NP-1) prc.classList.add('last-col');
+      const prinner=el('div','pr-inner');
+      const stic=el('span','st '+plat.rows[ri].s);
+      stic.textContent=plat.rows[ri].s==='ok'?'✓':plat.rows[ri].s==='pt'?'−':'✗';
+      const rib=el('button','ri-btn');rib.textContent='i';attachTip(rib,plat.rows[ri].tip);
+      prinner.appendChild(stic);prinner.appendChild(rib);
+      prc.appendChild(prinner);tr.appendChild(prc);
+    });
+    body.appendChild(tr);
+  });
+
+  /* ── Score cells ── */
+  uc.platforms.forEach((plat,pi)=>{
+    const sc=el('div','score-cell');sc.id='sc'+t+'_'+pi;sc.style.display='none';
+    const sb=el('div','score-box sc-'+plat.cls);
+    sb.innerHTML=`<span class="sc-lbl">Coverage</span><span class="sc-bar"><span class="sc-fill" id="scf${t}_${pi}" data-v="${plat.sv}"></span></span><span class="sc-pct">${plat.score}</span>`;
+    sc.appendChild(sb);si.appendChild(sc);
+  });
+}
+
+function el(tag,cls){const e=document.createElement(tag);e.className=cls;return e;}
+
+/* ═══════════ INTRO TOGGLE ═══════════ */
+function toggleIntro(t){
+  const ic=document.getElementById('ic'+t);
+  const ibw=document.getElementById('ibw'+t);
+  const eb=document.getElementById('eb'+t);
+  const col=ic.classList.contains('col');
+  if(col){ic.classList.remove('col');ibw.style.maxHeight=ibw.scrollHeight+'px';ibw.style.opacity='1';eb.textContent='▲ Hide Details';}
+  else{ic.classList.add('col');ibw.style.maxHeight='0';ibw.style.opacity='0';eb.textContent='▼ Show Details';}
+}
+
+/* ═══════════ SHOW PLATFORM HEADER ═══════════ */
+function showPlatHdr(t,pi){
+  const phd=document.getElementById('phd'+t);
+  if(!phd) return;
+  const uc=UC[t];
+  phd.innerHTML='';
+  for(let i=0;i<=pi;i++){
+    const plat=uc.platforms[i];
+    const cell=el('div','plat-hdr-cell');
+    const dotColor=plat.cls==='agnt'?'var(--gold)':'var(--'+plat.cls+')';
+    cell.innerHTML=`<div class="plat-hdr-box"><span class="ph-dot" style="background:${dotColor}"></span><span class="ph-name">${plat.name}</span><span class="ph-tag">${plat.tag}</span></div>`;
+    phd.appendChild(cell);
+  }
+  /* show platform cells and scores */
+  const uc2=UC[t];
+  uc2.tasks.forEach((_,ri)=>{
+    const prc=document.getElementById('prc'+t+'_'+ri+'_'+pi);
+    if(prc) prc.style.display='';
+  });
+  const sc=document.getElementById('sc'+t+'_'+pi);
+  if(sc){sc.style.display='';requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    const f=document.getElementById('scf'+t+'_'+pi);
+    if(f) setTimeout(()=>f.style.width=f.dataset.v+'%',350);
+  }));}
+}
+
+/* ═══════════ TAB ═══════════ */
+function switchTab(i){
+  started=true;
+  document.getElementById('welcome').style.display='none';
+  tab=i;
+  document.querySelectorAll('.tab').forEach((b,j)=>b.classList.toggle('on',j===i));
+  document.querySelectorAll('.panel').forEach((p,j)=>p.classList.toggle('on',j===i));
+  buildPanel(i);
+  resetTab();
+}
+
+/* ═══════════ RESET ═══════════ */
+function resetTab(){
+  step=0;updateUI();
+  const ag=document.getElementById('ag'+tab);
+  if(ag) ag.style.display='none';
+  const ic=document.getElementById('ic'+tab);
+  const ibw=document.getElementById('ibw'+tab);
+  const ir=document.getElementById('ir'+tab);
+  const eb=document.getElementById('eb'+tab);
+  if(ic) ic.classList.remove('col');
+  if(ibw){ibw.style.maxHeight='200px';ibw.style.opacity='1';}
+  if(ir) ir.style.display='none';
+  if(eb) eb.textContent='▼ Show Details';
+  /* hide all platform cols */
+  const uc=UC[tab];
+  if(!uc) return;
+  uc.platforms.forEach((_,pi)=>{
+    uc.tasks.forEach((_2,ri)=>{const c=document.getElementById('prc'+tab+'_'+ri+'_'+pi);if(c) c.style.display='none';});
+    const sc=document.getElementById('sc'+tab+'_'+pi);if(sc) sc.style.display='none';
+    const f=document.getElementById('scf'+tab+'_'+pi);if(f) f.style.width='0';
+  });
+  const phd=document.getElementById('phd'+tab);if(phd) phd.innerHTML='';
+  /* hide rows */
+  UC[tab].tasks.forEach((_,ri)=>{const tr=document.getElementById('tr'+tab+'_'+ri);if(tr){tr.style.opacity='0';tr.style.transform='translateX(-14px)';}});
+}
+
+/* ═══════════ ADVANCE ═══════════ */
+function advance(){if(!started||step>=8) return;step++;run();updateUI();}
+function run(){
+  const s=step,t=tab;
+  if(s===1) doTasks(t);
+  else if(s===2) doReveal(t,0);
+  else if(s===3){/* keep */}
+  else if(s===4) doReveal(t,1);
+  else if(s===5){/* keep */}
+  else if(s===6) doReveal(t,2);
+  else if(s===7){/* keep */}
+  else if(s===8) doChamp(t);
+}
+
+function doTasks(t){
+  const ic=document.getElementById('ic'+t),ibw=document.getElementById('ibw'+t),ir=document.getElementById('ir'+t),eb=document.getElementById('eb'+t);
+  if(ic) ic.classList.add('col');
+  if(ibw){ibw.style.maxHeight='0';ibw.style.opacity='0';}
+  if(ir) ir.style.display='flex';
+  if(eb) eb.textContent='▼ Show Details';
+  const ag=document.getElementById('ag'+t);if(ag) ag.style.display='block';
+  UC[t].tasks.forEach((_,ri)=>{
+    const tr=document.getElementById('tr'+t+'_'+ri);
+    if(tr) setTimeout(()=>{tr.style.opacity='1';tr.style.transform='translateX(0)';},ri*65);
+  });
+}
+function doReveal(t,pi){showPlatHdr(t,pi);}
+function doChamp(t){
+  doReveal(t,3);
+  setTimeout(()=>{setTimeout(()=>{openM(t);startFW();},900);},1500);
+}
+
+/* ═══════════ MODAL ═══════════ */
+function buildStars(){
+  const c=document.getElementById('mStars');c.innerHTML='';
+  for(let i=0;i<28;i++){const s=document.createElement('div');s.className='mstar';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(1.2+Math.random()*2.5)+'s');s.style.animationDelay=(Math.random()*2)+'s';c.appendChild(s);}
+}
+function openM(t){
+  const sc=SCORES[t];['ms0','ms1','ms2','ms3'].forEach((id,i)=>document.getElementById(id).textContent=[sc.t,sc.g,sc.r,sc.a][i]);
+  document.getElementById('mD').textContent=DESCS[t];buildStars();document.getElementById('mv').classList.add('open');
+}
+function closeM(){document.getElementById('mv').classList.remove('open');stopFW();}
+
+/* ═══════════ UI ═══════════ */
+function updateUI(){
+  document.getElementById('sLbl').textContent=started?(SLBLS[step]||''):'Select a Use Case to Begin';
+  for(let i=0;i<9;i++){const d=document.getElementById('sd'+i);if(!d) continue;d.classList.remove('done','cur');if(i<step)d.classList.add('done');else if(i===step)d.classList.add('cur');}
+  document.getElementById('nLbl').textContent=BLBLS[step]||'Next';
+  document.getElementById('nBtn').disabled=(!started)||step>=8;
+}
+
+/* ═══════════ KEYBOARD ═══════════ */
+document.addEventListener('keydown',e=>{
+  if((e.key==='ArrowRight'||e.key==='Enter')&&!document.getElementById('mv').classList.contains('open')) advance();
+  if(e.key==='Escape') closeM();
+});
+
+/* ═══════════ FIREWORKS ═══════════ */
+const fwC=document.getElementById('fw'),fwX=fwC.getContext('2d');
+let fwId=null,burstIv=null,pts=[];
+const FWC=['#D4A830','#B5861C','#924F18','#FFD060','#FF9040','#50C8E8','#A8E870','#F88888','#fff','#E8D8A0'];
+function rsz(){fwC.width=innerWidth;fwC.height=innerHeight;}rsz();addEventListener('resize',rsz);
+class Pt{constructor(x,y,c){this.x=x;this.y=y;this.vx=(Math.random()-.5)*16;this.vy=(Math.random()-.5)*16-5;this.a=1;this.c=c;this.r=Math.random()*3.5+1;this.g=.22;}
+up(){this.x+=this.vx;this.y+=this.vy;this.vy+=this.g;this.a-=.014;this.vx*=.97;}
+dr(){fwX.save();fwX.globalAlpha=Math.max(0,this.a);fwX.beginPath();fwX.arc(this.x,this.y,this.r,0,Math.PI*2);fwX.fillStyle=this.c;fwX.fill();fwX.restore();}}
+function spwn(){const x=Math.random()*fwC.width,y=Math.random()*fwC.height*.5,c=FWC[Math.floor(Math.random()*FWC.length)];for(let i=0;i<100;i++)pts.push(new Pt(x,y,c));}
+function fwLoop(){fwX.clearRect(0,0,fwC.width,fwC.height);pts=pts.filter(p=>p.a>0);pts.forEach(p=>{p.up();p.dr();});fwId=requestAnimationFrame(fwLoop);}
+function startFW(){pts=[];if(fwId)cancelAnimationFrame(fwId);fwLoop();spwn();burstIv=setInterval(spwn,650);setTimeout(stopFW,8000);}
+function stopFW(){clearInterval(burstIv);setTimeout(()=>{cancelAnimationFrame(fwId);fwX.clearRect(0,0,fwC.width,fwC.height);},2500);}
+
+(function(){updateUI();})();
+</script>
+</body>
+</html>
