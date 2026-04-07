@@ -1,2 +1,14 @@
-# AgenticAi
-HTML Code for AgenticAI Workshop content
+You are a senior web Developer and reviewing the attached HTML Webpage and you will be crafting this HTML to the next level experience. You will be working on the given feedback points to ensure that this website is having no bug and best design from the purpose of displaying screen on Projector screen for a broader audience. 
+1. Increase the font size of the AI Platform Headers as much the block width can accommodate 
+2. Increase the header size of the Use case name as much it can accommodate. 
+3. Please align Task Name list with the respective tool capability horizontally for a better visibility and easy to assess the mapping of tool's capability against the task. 
+4. Description of Task is hiding in the background of Task list block, bring it to the front.
+5. Please ensure that Header for every AI Tool is aligned properly with the auto assigned width of each AI Platform block. Provide dedicated block like structure for each AI Platform, however each Flag should aligned with the respective task horizontally and centrally aligned to the AI platform block. 
+6. Reduce the width of AI Platform blocks and align the Capability Flag and “i” icon centrally aligned. 
+7. Give an button option to display the information of all capability flags in one go for all 100% capable together , Conditionally Capable together and Not Capable flags together (Provide these option buttons along with the header legends for these flags just above the Comparison table section. 
+8. Give an button option to display the information of all capability flags in one go for all 100% capable together , Conditionally Capable together and Not Capable flags together (Provide these option buttons along with the header legends for these flags just above the Comparison table section. 
+9. Increase the width of Task List block to ensure task detail text is fitting in 1 line at 100% screen resolution. 
+10. Quick description (Like “Statistical models, decision trees & rule-based engines. Strong at structured data processing but limited on unstructured and generative tasks.”  “Traditional AI and Capability Keyword (like “Predictive scoring · Classification · Rule matching” for Traditional AI”) for every AI Platform's to handle the problem statement to be retained, give an option to expand or collapse the quick description for all AI Platform blocks in one go together. Maintain the Capability Keywords unchanged.
+11. Task List should always remains auto aligned with Capability Flag in as and when layout height gets changed due to expanding or collapsing of the details.
+12. Design the overall layout of the screen by ensuring that all Screen elements are aligned rationally and size of all headers are reasonably big for better experience on Projection screen.
+Please DO NOT MAKE any other changes in the website content and layout.
