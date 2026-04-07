@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgentIQ — Finance AI Capability Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════ CSS VARIABLES ═══════════════ */
+:root {
+  --bg-base:#F5EEE4; --bg-surface:#EDE5D8; --bg-card:#FDFAF5; --bg-card-alt:#F2EAD8; --bg-inset:#E6DDD0;
+  --text-head:#100C06; --text-body:#352A1C; --text-sub:#5C4D3A; --text-faint:#8C7A64;
+  --gold:#B5861C; --gold-lt:#D4A830; --gold-dk:#8A640E; --copper:#924F18;
+  --border-lt:rgba(181,134,28,0.14); --border-md:rgba(181,134,28,0.28); --border-hv:rgba(181,134,28,0.52);
+  --ok:#1B6640; --ok-bg:rgba(27,102,64,0.10); --no:#9A2F18; --no-bg:rgba(154,47,24,0.10);
+  --part:#7A5A0A; --part-bg:rgba(122,90,10,0.10);
+  --trad:#2F6FAA; --gen:#6240A8; --rag:#1A7858; --agent:#B5861C;
+  --sh-sm:0 2px 18px rgba(16,12,6,0.07); --sh-md:0 6px 36px rgba(16,12,6,0.11);
+  --sh-lg:0 16px 60px rgba(16,12,6,0.16); --sh-xl:0 28px 90px rgba(16,12,6,0.22);
+  --hdr:76px;
+  --row-h:60px;
+}
+.dark {
+  --bg-base:#070C1A; --bg-surface:#0D1628; --bg-card:#122032; --bg-card-alt:#18293E; --bg-inset:#0A1120;
+  --text-head:#EAE0D0; --text-body:#B4C4D4; --text-sub:#7090A8; --text-faint:#405870;
+  --gold:#D4A830; --gold-lt:#ECC050; --gold-dk:#A87C20; --copper:#C87838;
+  --border-lt:rgba(212,168,48,0.10); --border-md:rgba(212,168,48,0.22); --border-hv:rgba(212,168,48,0.44);
+  --ok:#38A86A; --ok-bg:rgba(56,168,106,0.12); --no:#D05040; --no-bg:rgba(208,80,64,0.12);
+  --part:#D4A830; --part-bg:rgba(212,168,48,0.12);
+  --trad:#5898D0; --gen:#9070D8; --rag:#38B88A; --agent:#D4A830;
+  --sh-sm:0 2px 18px rgba(0,0,0,0.30); --sh-md:0 6px 36px rgba(0,0,0,0.40);
+  --sh-lg:0 16px 60px rgba(0,0,0,0.52); --sh-xl:0 28px 90px rgba(0,0,0,0.64);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{font-size:16px;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg-base);color:var(--text-body);min-height:100vh;overflow-x:hidden;transition:background .45s,color .45s;}
+
+/* ══ HEADER ══ */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:300;height:var(--hdr);background:var(--bg-card);border-bottom:1px solid var(--border-md);display:flex;align-items:center;justify-content:space-between;padding:0 2.4rem;box-shadow:var(--sh-sm);transition:background .45s,border-color .45s;}
+.hdr-brand{display:flex;align-items:center;gap:.9rem;}
+.hdr-emblem{width:46px;height:46px;background:linear-gradient(135deg,var(--gold-lt) 0%,var(--copper) 100%);border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(181,134,28,0.38);flex-shrink:0;}
+.hdr-emblem svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.hdr-name{font-family:'Cormorant Garamond',serif;font-size:1.65rem;font-weight:700;color:var(--text-head);letter-spacing:.01em;line-height:1.1;}
+.hdr-tagline{font-size:.7rem;font-weight:500;color:var(--text-faint);letter-spacing:.14em;text-transform:uppercase;margin-top:1px;}
+.hdr-right{display:flex;align-items:center;gap:.9rem;}
+.hdr-badge{font-size:.72rem;font-weight:600;letter-spacing:.10em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border-md);border-radius:100px;padding:.28rem .9rem;background:var(--bg-surface);}
+.theme-btn{display:flex;align-items:center;gap:.5rem;background:var(--bg-surface);border:1px solid var(--border-md);border-radius:100px;padding:.4rem 1.1rem;cursor:pointer;color:var(--text-sub);font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;letter-spacing:.03em;transition:all .2s;}
+.theme-btn:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ══ HERO BANNER ══ */
+.hero{margin-top:var(--hdr);background:linear-gradient(112deg,var(--bg-surface) 0%,var(--bg-card) 60%,var(--bg-base) 100%);border-bottom:1px solid var(--border-md);padding:2rem 2.4rem 1.6rem;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:420px;height:420px;background:radial-gradient(circle,rgba(181,134,28,0.09) 0%,transparent 68%);border-radius:50%;pointer-events:none;}
+.hero-inner{display:flex;align-items:center;justify-content:space-between;gap:2rem;position:relative;z-index:1;}
+.hero-h{font-family:'Cormorant Garamond',serif;font-size:3.2rem;font-weight:700;color:var(--text-head);line-height:1.1;margin-bottom:.45rem;}
+.hero-h em{font-style:italic;color:var(--gold);}
+.hero-p{font-size:1.1rem;font-weight:400;line-height:1.72;color:var(--text-sub);max-width:680px;}
+.hero-stat-row{display:flex;gap:1.2rem;flex-shrink:0;}
+.hero-stat{text-align:center;background:var(--bg-card);border:1px solid var(--border-lt);border-radius:12px;padding:.7rem 1.1rem;min-width:80px;}
+.hero-stat-val{font-family:'DM Mono',monospace;font-size:2rem;font-weight:500;color:var(--gold);}
+.hero-stat-lbl{font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);margin-top:2px;}
+
+/* ══ TABS ══ */
+.tabs-wrap{background:var(--bg-surface);border-bottom:1px solid var(--border-md);padding:0 2.4rem;display:flex;align-items:stretch;position:sticky;top:var(--hdr);z-index:200;transition:background .45s;}
+.tab{position:relative;display:flex;align-items:center;gap:.7rem;padding:0 1.8rem;height:58px;border:none;background:transparent;cursor:pointer;color:var(--text-faint);font-family:'DM Sans',sans-serif;font-size:1.05rem;font-weight:600;letter-spacing:.02em;white-space:nowrap;transition:color .2s;border-bottom:3px solid transparent;}
+.tab:hover{color:var(--text-sub);}
+.tab.on{color:var(--gold);border-bottom-color:var(--gold);}
+.tab-n{width:26px;height:26px;border-radius:7px;background:var(--bg-inset);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:.72rem;font-weight:500;color:var(--text-faint);transition:all .2s;}
+.tab.on .tab-n{background:var(--gold);color:#fff;}
+
+/* ══ STAGE ══ */
+.stage{padding:1.4rem 2.4rem 6.5rem;}
+.panel{display:none;}
+.panel.on{display:block;}
+
+/* ══ INTRO CARD ══ */
+.intro-wrap{margin-bottom:1.4rem;opacity:0;transform:translateY(14px);animation:fadeUp .5s cubic-bezier(.22,1,.36,1) forwards;}
+.intro-card{background:var(--bg-card);border:1px solid var(--border-md);border-radius:16px;padding:1.8rem 2.2rem;display:flex;align-items:flex-start;gap:1.4rem;box-shadow:var(--sh-md);position:relative;overflow:hidden;transition:all .4s;}
+.intro-card.collapsed{padding:.8rem 2.2rem;}
+.intro-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,var(--gold-lt),var(--copper));border-radius:5px 0 0 5px;}
+.intro-emo{font-size:2.8rem;line-height:1;flex-shrink:0;margin-top:4px;transition:all .4s;}
+.intro-card.collapsed .intro-emo{font-size:1.6rem;margin-top:0;}
+.intro-left{flex:1;min-width:0;overflow:hidden;}
+.intro-lbl{font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.35rem;}
+.intro-title{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--text-head);line-height:1.2;margin-bottom:.4rem;transition:all .4s;}
+.intro-card.collapsed .intro-title{font-size:1.2rem;margin-bottom:0;}
+.intro-body{font-size:.98rem;line-height:1.72;color:var(--text-sub);max-width:860px;overflow:hidden;transition:max-height .4s ease,opacity .3s;max-height:200px;opacity:1;}
+.intro-body.hidden{max-height:0;opacity:0;}
+.intro-card.collapsed .intro-lbl{display:none;}
+.intro-right{display:flex;align-items:center;gap:.6rem;flex-shrink:0;margin-top:4px;}
+.expand-btn{display:flex;align-items:center;gap:.4rem;background:var(--bg-surface);border:1px solid var(--border-md);border-radius:8px;padding:.38rem .85rem;cursor:pointer;color:var(--text-sub);font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:600;letter-spacing:.03em;transition:all .2s;white-space:nowrap;}
+.expand-btn:hover{border-color:var(--gold);color:var(--gold);}
+.expand-btn .eico{transition:transform .3s;}
+.expand-btn.is-exp .eico{transform:rotate(180deg);}
+
+/* ══ ANALYSIS GRID ══ */
+/* Grid: task col + platforms stretch side by side */
+.ag{display:grid;grid-template-columns:330px 1fr;gap:1.2rem;align-items:stretch;}
+
+/* ══ TASKS COLUMN ══ */
+.tasks-col{display:flex;flex-direction:column;opacity:0;transform:translateX(-18px);transition:opacity .45s,transform .45s;}
+.tasks-col.show{opacity:1;transform:translateX(0);}
+.tc-head{font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;padding-left:.15rem;}
+.tc-inner{background:var(--bg-card);border:1px solid var(--border-md);border-radius:12px;box-shadow:var(--sh-sm);flex:1;display:flex;flex-direction:column;overflow:hidden;}
+
+/* Task items — critical: must match row height of platform cards */
+.t-item{display:flex;align-items:center;gap:.75rem;padding:0 1rem;height:var(--row-h);flex-shrink:0;opacity:0;transform:translateX(-8px);transition:opacity .32s,transform .32s,background .15s;border-bottom:1px solid var(--border-lt);}
+.t-item:last-child{border-bottom:none;}
+.t-item.show{opacity:1;transform:translateX(0);}
+.t-item:hover{background:var(--bg-card-alt);}
+.t-num{min-width:36px;height:36px;background:var(--bg-inset);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:.76rem;font-weight:500;color:var(--gold);flex-shrink:0;}
+.t-text-wrap{flex:1;min-width:0;display:flex;align-items:center;gap:.4rem;}
+.t-name{font-size:1rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text-body);line-height:1.35;flex:1;}
+/* "i" icon for task business objective */
+.i-btn{width:20px;height:20px;border-radius:50%;background:var(--bg-inset);border:1px solid var(--border-md);display:flex;align-items:center;justify-content:center;cursor:pointer;font-style:italic;font-family:'Cormorant Garamond',serif;font-size:.78rem;font-weight:700;color:var(--text-faint);flex-shrink:0;transition:all .18s;position:relative;}
+.i-btn:hover{background:var(--gold);color:#fff;border-color:var(--gold);}
+/* tooltip */
+.i-btn .tip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--text-head);color:var(--bg-card);font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:400;line-height:1.5;padding:.6rem .85rem;border-radius:9px;width:240px;white-space:normal;opacity:0;pointer-events:none;transition:opacity .18s;z-index:500;box-shadow:var(--sh-md);}
+.i-btn .tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--text-head);}
+.i-btn:hover .tip{opacity:1;}
+
+/* ══ PLATFORMS ROW ══ */
+.plats-row{display:flex;gap:1rem;align-items:stretch;}
+
+/* ══ PLATFORM CARD ══ */
+.pc{background:var(--bg-card);border:1px solid var(--border-md);border-radius:12px;box-shadow:var(--sh-sm);display:none;flex-direction:column;flex:1;min-width:0;position:relative;overflow:visible;opacity:0;transform:translateY(18px) scale(.97);transition:opacity .42s,transform .48s cubic-bezier(.22,1,.36,1),box-shadow .38s,border-color .28s,flex .42s;}
+.pc.show{display:flex;opacity:1;transform:translateY(0) scale(1);}
+.pc.focused{transform:translateY(-6px) scale(1.028);box-shadow:var(--sh-xl);border-color:var(--gold);z-index:20;flex:1.32;}
+.pc.champ{border-color:var(--gold);border-width:2px;box-shadow:0 0 0 4px rgba(181,134,28,0.14),var(--sh-xl);}
+.pc-crown{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:1.7rem;opacity:0;transition:opacity .4s;pointer-events:none;z-index:10;}
+.pc.champ .pc-crown{opacity:1;}
+
+/* color stripe */
+.pc-stripe{height:4px;border-radius:12px 12px 0 0;flex-shrink:0;}
+.trad .pc-stripe{background:linear-gradient(90deg,var(--trad),#70B8E0);}
+.gen  .pc-stripe{background:linear-gradient(90deg,var(--gen),#A888E0);}
+.rag  .pc-stripe{background:linear-gradient(90deg,var(--rag),#50D0A0);}
+.agnt .pc-stripe{background:linear-gradient(90deg,var(--gold-lt),var(--copper));}
+
+.pc-head{padding:.9rem .8rem .4rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;flex-shrink:0;gap:.3rem;}
+.pc-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
+.trad .pc-dot{background:var(--trad);} .gen .pc-dot{background:var(--gen);} .rag .pc-dot{background:var(--rag);} .agnt .pc-dot{background:var(--gold);}
+.pc-name{font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,2.6vw,1.7rem);font-weight:700;color:var(--text-head);line-height:1.05;text-align:center;width:100%;}
+.pc-tag{font-size:.66rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:.22rem .62rem;border-radius:6px;white-space:nowrap;}
+.trad .pc-tag{background:rgba(47,111,170,.13);color:var(--trad);}
+.gen  .pc-tag{background:rgba(98,64,168,.13);color:var(--gen);}
+.rag  .pc-tag{background:rgba(26,120,88,.13);color:var(--rag);}
+.agnt .pc-tag{background:rgba(181,134,28,.13);color:var(--gold);}
+.pc-sub{padding:0 1.3rem .7rem;font-size:.86rem;line-height:1.62;color:var(--text-sub);flex-shrink:0;}
+.pc-cap{margin:0 1.3rem .8rem;display:inline-flex;align-items:center;gap:.38rem;font-size:.74rem;font-weight:600;color:var(--text-faint);background:var(--bg-surface);border:1px solid var(--border-lt);padding:.28rem .7rem;border-radius:7px;flex-shrink:0;}
+.pc-div{height:1px;background:var(--border-lt);flex-shrink:0;}
+
+/* ══ TASK ROWS in platform card — MUST MATCH .t-item height ══ */
+.pc-rows{flex:1;display:flex;flex-direction:column;min-height:0;}
+.pc-row{display:flex;align-items:center;justify-content:center;gap:.5rem;padding:0 .7rem;height:var(--row-h);flex-shrink:0;border-bottom:1px solid var(--border-lt);transition:background .15s;}
+.pc-row:last-child{border-bottom:none;}
+.pc-row:hover{background:var(--bg-card-alt);}
+
+/* status icon */
+.pc-st{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;flex-shrink:0;line-height:1;}
+.pc-st.ok{background:var(--ok-bg);color:var(--ok);}
+.pc-st.no{background:var(--no-bg);color:var(--no);}
+.pc-st.pt{background:var(--part-bg);color:var(--part);}
+
+/* info icon inline in rows */
+.row-info{position:relative;display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:50%;background:var(--bg-inset);border:1px solid var(--border-md);cursor:pointer;font-style:italic;font-family:'Cormorant Garamond',serif;font-size:.74rem;font-weight:700;color:var(--text-faint);flex-shrink:0;transition:all .18s;margin-left:auto;}
+.row-info:hover{background:var(--gold);color:#fff;border-color:var(--gold);}
+.row-info .tip{position:absolute;bottom:calc(100% + 8px);right:0;background:var(--text-head);color:var(--bg-card);font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:400;line-height:1.52;padding:.6rem .85rem;border-radius:9px;width:230px;white-space:normal;opacity:0;pointer-events:none;transition:opacity .18s;z-index:500;box-shadow:var(--sh-md);}
+.row-info .tip::after{content:'';position:absolute;top:100%;right:6px;border:6px solid transparent;border-top-color:var(--text-head);}
+.row-info:hover .tip,.row-info:focus .tip{opacity:1;}
+
+/* score footer */
+.pc-score{border-top:1px solid var(--border-md);padding:.85rem 1.3rem;display:flex;align-items:center;gap:.85rem;flex-shrink:0;}
+.sc-lbl{font-size:.68rem;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--text-faint);white-space:nowrap;}
+.sc-bar{flex:1;height:7px;background:var(--bg-inset);border-radius:100px;overflow:hidden;}
+.sc-fill{height:100%;border-radius:100px;width:0;transition:width 1.25s cubic-bezier(.22,1,.36,1);}
+.trad .sc-fill{background:linear-gradient(90deg,var(--trad),#80C0E8);}
+.gen  .sc-fill{background:linear-gradient(90deg,var(--gen),#B898F0);}
+.rag  .sc-fill{background:linear-gradient(90deg,var(--rag),#60D0A8);}
+.agnt .sc-fill{background:linear-gradient(90deg,var(--gold-lt),var(--copper));}
+.sc-pct{font-family:'DM Mono',monospace;font-size:1rem;font-weight:500;min-width:42px;text-align:right;}
+.trad .sc-pct{color:var(--trad);} .gen .sc-pct{color:var(--gen);} .rag .sc-pct{color:var(--rag);} .agnt .sc-pct{color:var(--gold);}
+
+/* ══ LEGEND ══ */
+.legend{display:flex;align-items:center;gap:.85rem;flex-wrap:wrap;}
+.leg-item{display:flex;align-items:center;gap:.42rem;font-size:.88rem;font-weight:600;color:var(--text-sub);}
+.leg-ic{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.88rem;font-weight:700;flex-shrink:0;}
+.leg-ic.ok{background:var(--ok-bg);color:var(--ok);}
+.leg-ic.no{background:var(--no-bg);color:var(--no);}
+.leg-ic.pt{background:var(--part-bg);color:var(--part);}
+
+/* ══ CONTROLS BAR ══ */
+.ctrl-bar{position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--bg-card);border-top:1px solid var(--border-md);padding:.8rem 2.4rem;display:flex;align-items:center;justify-content:space-between;box-shadow:0 -4px 28px rgba(16,12,6,0.09);transition:background .45s,border-color .45s;}
+.step-info{display:flex;align-items:center;gap:.5rem;}
+.step-dot{width:9px;height:9px;border-radius:50%;background:var(--bg-inset);border:1px solid var(--border-md);transition:all .3s;}
+.step-dot.done{background:var(--ok);border-color:var(--ok);transform:scale(.88);}
+.step-dot.cur{background:var(--gold);border-color:var(--gold);transform:scale(1.38);}
+.step-lbl{font-size:.85rem;font-weight:600;color:var(--text-sub);margin-left:.5rem;}
+.ctrl-right{display:flex;align-items:center;gap:.8rem;}
+.kb-hint{display:flex;align-items:center;gap:.35rem;color:var(--text-faint);font-size:.76rem;}
+.kb{background:var(--bg-surface);border:1px solid var(--border-md);border-radius:5px;padding:.12rem .44rem;font-family:'DM Mono',monospace;font-size:.68rem;color:var(--text-sub);}
+.rst-btn{background:transparent;border:1px solid var(--border-md);border-radius:9px;padding:.55rem 1.1rem;cursor:pointer;color:var(--text-sub);font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:600;transition:all .2s;}
+.rst-btn:hover{border-color:var(--gold);color:var(--gold);}
+.nxt-btn{display:flex;align-items:center;gap:.6rem;background:linear-gradient(135deg,var(--gold-lt) 0%,var(--copper) 100%);color:#fff;border:none;border-radius:10px;padding:.68rem 1.6rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.92rem;font-weight:700;letter-spacing:.04em;box-shadow:0 4px 20px rgba(181,134,28,0.38);transition:all .2s;}
+.nxt-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 28px rgba(181,134,28,0.50);}
+.nxt-btn:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none;}
+
+/* ══ CHAMPION MODAL ══ */
+.modal-veil{display:none;position:fixed;inset:0;z-index:900;background:rgba(4,8,18,0.84);backdrop-filter:blur(14px) saturate(0.4);align-items:center;justify-content:center;}
+.modal-veil.open{display:flex;}
+.champ-modal{position:relative;background:var(--bg-card);border:1px solid var(--border-md);border-radius:26px;width:94%;max-width:640px;overflow:hidden;box-shadow:0 60px 140px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.04);animation:modalPop .55s cubic-bezier(.22,1,.36,1) forwards;}
+
+.modal-bar{height:5px;background:linear-gradient(90deg,var(--gold-dk),var(--gold-lt),var(--copper),var(--gold-lt),var(--gold-dk));background-size:400% 100%;animation:goldFlow 3.5s linear infinite;}
+@keyframes goldFlow{0%{background-position:0% 50%}100%{background-position:400% 50%}}
+
+.modal-body{padding:3rem 3.4rem 2.8rem;text-align:center;position:relative;}
+.modal-glow{position:absolute;top:0;left:50%;transform:translateX(-50%);width:380px;height:280px;background:radial-gradient(ellipse,rgba(181,134,28,0.14) 0%,transparent 68%);pointer-events:none;}
+.modal-stars{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;overflow:hidden;}
+.modal-star{position:absolute;width:4px;height:4px;background:var(--gold-lt);border-radius:50%;animation:starTwinkle var(--d,2s) ease-in-out infinite;opacity:0;}
+@keyframes starTwinkle{0%,100%{opacity:0;transform:scale(.5);}50%{opacity:.8;transform:scale(1.2);}}
+.modal-close-x{position:absolute;top:1.1rem;right:1.1rem;width:36px;height:36px;border-radius:50%;background:var(--bg-surface);border:1px solid var(--border-md);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-faint);font-size:1rem;transition:all .2s;z-index:2;}
+.modal-close-x:hover{background:var(--no);color:#fff;border-color:var(--no);}
+.modal-trophy{font-size:5.5rem;line-height:1;margin-bottom:1.1rem;position:relative;z-index:1;animation:trophyFloat 3s ease-in-out infinite;}
+@keyframes trophyFloat{0%,100%{transform:translateY(0) rotate(-3deg);}50%{transform:translateY(-10px) rotate(3deg);}}
+.modal-eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.45rem;}
+.modal-headline{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:500;color:var(--text-sub);margin-bottom:.3rem;}
+.modal-champ-name{font-family:'Cormorant Garamond',serif;font-size:3.4rem;font-weight:700;line-height:1;background:linear-gradient(135deg,var(--gold-lt) 0%,var(--copper) 55%,var(--gold-lt) 100%);background-size:300% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:goldFlow 4s linear infinite;margin-bottom:1rem;}
+.modal-desc{font-size:1rem;line-height:1.72;color:var(--text-sub);max-width:500px;margin:0 auto 1.8rem;}
+.modal-pills{display:flex;gap:.85rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem;}
+.m-pill{display:flex;flex-direction:column;align-items:center;background:var(--bg-surface);border:1px solid var(--border-lt);border-radius:14px;padding:.85rem 1.2rem;min-width:118px;transition:all .2s;}
+.m-pill.win{border-color:var(--gold);border-width:2px;background:linear-gradient(160deg,rgba(181,134,28,0.10),rgba(146,79,24,0.06));box-shadow:0 4px 26px rgba(181,134,28,0.22);}
+.m-pill-top{display:flex;align-items:center;gap:.35rem;margin-bottom:.5rem;}
+.m-pill-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.m-pill-plat{font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--text-faint);text-transform:uppercase;}
+.m-pill.win .m-pill-plat{color:var(--gold);}
+.m-pill-val{font-family:'DM Mono',monospace;font-size:1.55rem;font-weight:500;color:var(--text-head);}
+.m-pill.win .m-pill-val{color:var(--gold);font-size:1.9rem;font-weight:700;}
+.modal-cta{background:linear-gradient(135deg,var(--gold-lt) 0%,var(--copper) 100%);color:#fff;border:none;border-radius:12px;padding:.9rem 2.8rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:700;letter-spacing:.05em;box-shadow:0 6px 28px rgba(181,134,28,0.46);transition:all .2s;}
+.modal-cta:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(181,134,28,0.60);}
+
+/* ══ ANIMATIONS ══ */
+@keyframes fadeUp{to{opacity:1;transform:translateY(0);}}
+@keyframes modalPop{from{opacity:0;transform:scale(.78) translateY(36px);}to{opacity:1;transform:scale(1) translateY(0);}}
+
+/* ══ FIREWORKS CANVAS ══ */
+#fw{position:fixed;inset:0;z-index:850;pointer-events:none;}
+
+/* ── COLLAPSIBLE DESCRIPTION WRAPPER ── */
+.pc-sub-wrap{overflow:hidden;transition:max-height .4s ease,opacity .35s;max-height:140px;opacity:1;}
+.pc-sub-wrap.hidden{max-height:0;opacity:0;}
+/* ── TABLE CONTROLS ── */
+.table-controls{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;gap:.7rem;flex-wrap:wrap;}
+.legend-area{display:flex;align-items:center;gap:.85rem;flex-wrap:wrap;}
+.flag-info-btn{display:flex;align-items:center;gap:.4rem;background:var(--bg-surface);border:1.5px solid var(--border-md);border-radius:8px;padding:.38rem .88rem;cursor:pointer;color:var(--text-sub);font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;transition:all .2s;white-space:nowrap;}
+.flag-info-btn:hover{border-color:var(--gold);color:var(--gold);}
+.global-toggle-btn{display:flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,rgba(181,134,28,0.10),rgba(146,79,24,0.06));border:1.5px solid var(--border-md);border-radius:10px;padding:.5rem 1.1rem;cursor:pointer;color:var(--gold);font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.03em;transition:all .22s;white-space:nowrap;flex-shrink:0;}
+.global-toggle-btn:hover{border-color:var(--gold);box-shadow:0 3px 14px rgba(181,134,28,0.22);}
+.global-toggle-btn .gt-ico{transition:transform .3s;display:inline-block;}
+.global-toggle-btn.collapsed .gt-ico{transform:rotate(180deg);}
+/* ── FLAG PANEL ── */
+.flag-panel{display:none;background:var(--bg-card);border:1px solid var(--border-md);border-radius:12px;padding:1.2rem 1.6rem;margin-bottom:.6rem;box-shadow:var(--sh-sm);animation:fadeUp .3s cubic-bezier(.22,1,.36,1);}
+.flag-panel.open{display:block;}
+.flag-panel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;}
+.flag-def{display:flex;align-items:flex-start;gap:.75rem;}
+.flag-def-ic{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;flex-shrink:0;}
+.flag-def-ic.ok{background:var(--ok-bg);color:var(--ok);border:1.5px solid rgba(27,102,64,0.25);}
+.flag-def-ic.no{background:var(--no-bg);color:var(--no);border:1.5px solid rgba(154,47,24,0.25);}
+.flag-def-ic.pt{background:var(--part-bg);color:var(--part);border:1.5px solid rgba(122,90,10,0.25);}
+.flag-def-title{font-size:.97rem;font-weight:700;color:var(--text-head);margin-bottom:.25rem;}
+.flag-def-desc{font-size:.85rem;line-height:1.55;color:var(--text-sub);}
+/* ══ SCROLLBAR ══ */
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:var(--bg-surface);}
+::-webkit-scrollbar-thumb{background:var(--border-md);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:var(--gold);}
+</style>
+</head>
+<body>
+
+<canvas id="fw"></canvas>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-brand">
+    <div class="hdr-emblem">
+      <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    </div>
+    <div>
+      <div class="hdr-name">AgentIQ Finance</div>
+      <div class="hdr-tagline">AI Capability Intelligence Portal</div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-badge">Finance Edition · 2025</div>
+    <button class="theme-btn" onclick="toggleTheme()">
+      <span id="thIco">🌙</span><span id="thLbl">Dark Mode</span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-h">AI Platform <em>Capability</em> Comparison</div>
+      <div class="hero-p">Discover how Traditional AI, Generative AI, RAG, and Agentic AI perform across critical banking workflows — task by task, with transparent scoring on capability coverage and platform limitations.</div>
+    </div>
+    <div class="hero-stat-row">
+      <div class="hero-stat"><div class="hero-stat-val">4</div><div class="hero-stat-lbl">Platforms</div></div>
+      <div class="hero-stat"><div class="hero-stat-val">3</div><div class="hero-stat-lbl">Use Cases</div></div>
+      <div class="hero-stat"><div class="hero-stat-val">24</div><div class="hero-stat-lbl">Tasks Mapped</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<nav class="tabs-wrap">
+  <button class="tab on" onclick="switchTab(0)" id="tb0"><span class="tab-n">01</span>Loan Origination &amp; Credit Underwriting</button>
+  <button class="tab"    onclick="switchTab(1)" id="tb1"><span class="tab-n">02</span>Fraud Detection &amp; AML Compliance</button>
+  <button class="tab"    onclick="switchTab(2)" id="tb2"><span class="tab-n">03</span>Wealth Management &amp; Client Advisory</button>
+</nav>
+
+<!-- STAGE -->
+<div class="stage">
+
+<!-- ════════════════════ UC 0 ════════════════════ -->
+<div class="panel on" id="p0">
+  <div class="intro-wrap" id="iw0">
+    <div class="intro-card" id="ic0">
+      <div class="intro-emo">🏦</div>
+      <div class="intro-left">
+        <div class="intro-lbl">Use Case 01 · Banking Operations</div>
+        <div class="intro-title">Loan Origination &amp; Credit Underwriting</div>
+        <div class="intro-body" id="ib0">An end-to-end banking process evaluating, approving, and disbursing loans — spanning application intake, credit scoring, document verification, risk assessment, compliance checks, loan decisioning, customer communication, and full workflow orchestration. Speed, accuracy, and regulatory adherence are mission-critical.</div>
+      </div>
+      <div class="intro-right" id="ir0" style="display:none;">
+        <button class="expand-btn" id="eb0" onclick="toggleIntro(0)"><span class="eico">▲</span> Hide Details</button>
+      </div>
+    </div>
+  </div>
+  <div class="ag" id="ag0" style="display:none;">
+    <div class="tasks-col" id="tc0">
+      <div class="tc-head">Process Tasks</div>
+      <div class="tc-inner">
+        <div class="t-item"><div class="t-num">T1</div><div class="t-text-wrap"><div class="t-name">Application intake &amp; data capture</div><div class="i-btn">i<span class="tip">Collect borrower's personal, financial and employment data via digital forms, with AI pre-filling from uploaded documents to minimise manual effort.</span></div></div></div>
+        <div class="t-item"><div class="t-num">T2</div><div class="t-text-wrap"><div class="t-name">Credit score retrieval &amp; bureau checks</div><div class="i-btn">i<span class="tip">Pull CIBIL/Equifax/Experian scores and full bureau reports in real-time to assess historical creditworthiness and existing debt obligations.</span></div></div></div>
+        <div class="t-item"><div class="t-num">T3</div><div class="t-text-wrap"><div class="t-name">Document verification (KYC / income)</div><div class="i-btn">i<span class="tip">Validate identity proofs, income slips, tax returns and bank statements using OCR and NLP to confirm authenticity and consistency with the application.</span></div></div></div>
+        <div class="t-item"><div class="t-num">T4</div><div class="t-text-wrap"><div class="t-name">Risk scoring &amp; model evaluation</div><div class="i-btn">i<span class="tip">Apply proprietary risk models that combine bureau data, income ratios, employment stability, and collateral valuation to compute probability of default (PD).</span></div></div></div>
+        <div class="t-item"><div class="t-num">T5</div><div class="t-text-wrap"><div class="t-name">Regulatory compliance assessment</div><div class="i-btn">i<span class="tip">Check the loan application against RBI guidelines, FEMA regulations, sectoral exposure limits and internal credit policy to flag any regulatory breaches before approval.</span></div></div></div>
+        <div class="t-item"><div class="t-num">T6</div><div class="t-text-wrap"><div class="t-name">Loan decision &amp; terms generation</div><div class="i-btn">i<span class="tip">Produce a structured approval or rejection decision with the sanctioned amount, interest rate, tenure, EMI schedule and conditions — personalised to the applicant's profile.</span></div></div></div>
+        <div class="t-item"><div class="t-num">T7</div><div class="t-text-wrap"><div class="t-name">Customer communication &amp; Q&amp;A</div><div class="i-btn">i<span class="tip">Respond to applicant queries about status, required documents and terms via conversational interfaces, reducing branch visits and call-centre load.</span></div></div></div>
+        <div class="t-item"><div class="t-num">T8</div><div class="t-text-wrap"><div class="t-name">End-to-end workflow orchestration</div><div class="i-btn">i<span class="tip">Coordinate all upstream and downstream systems — CRM, LOS, bureau APIs, compliance engines and communication channels — in a single automated pipeline without human handoffs.</span></div></div></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:.6rem;flex:1;min-width:0;">
+      <div class="table-controls">
+        <div class="legend-area">
+          <div class="legend">
+            <div class="leg-item"><div class="leg-ic ok">✓</div> Fully Capable</div>
+            <div class="leg-item"><div class="leg-ic pt">−</div> Conditionally Capable</div>
+            <div class="leg-item"><div class="leg-ic no">✗</div> Not Capable</div>
+          </div>
+          <button class="flag-info-btn" onclick="toggleFlagPanel(0)">&#9432; What do these flags mean?</button>
+        </div>
+        <button class="global-toggle-btn" id="gtb0" onclick="toggleAllDescriptions(0)">
+          <span class="gt-ico">&#9650;</span> <span id="gtl0">Collapse Descriptions</span>
+        </button>
+      </div>
+      <div class="flag-panel" id="fp0">
+        <div class="flag-panel-grid">
+          <div class="flag-def"><div class="flag-def-ic ok">✓</div><div><div class="flag-def-title">Fully Capable</div><div class="flag-def-desc">The AI platform can independently handle this task end-to-end at production quality, without requiring manual intervention or significant workarounds.</div></div></div>
+          <div class="flag-def"><div class="flag-def-ic pt">−</div><div><div class="flag-def-title">Conditionally Capable</div><div class="flag-def-desc">The platform can partially address this task but requires specific integrations, human oversight, additional tooling, or specific conditions to deliver reliable results.</div></div></div>
+          <div class="flag-def"><div class="flag-def-ic no">✗</div><div><div class="flag-def-title">Not Capable</div><div class="flag-def-desc">The platform fundamentally cannot address this task due to architectural limitations — not a gap bridgeable with configuration or prompting alone.</div></div></div>
+        </div>
+      </div>
+      <div class="plats-row" id="pr0">
+        <!-- Traditional AI -->
+        <div class="pc trad" id="pc00">
+          <div class="pc-crown">👑</div><div class="pc-stripe"></div>
+          <div class="pc-head"><div class="pc-dot"></div><div class="pc-name">Traditional AI</div><div class="pc-tag">ML · Rules</div></div>
+          <div class="pc-sub-wrap" id="psw00"><div class="pc-sub">Statistical models, decision trees &amp; rule-based engines. Strong at structured data processing but limited on unstructured and generative tasks.</div>
+          <div class="pc-cap">⚙️ Predictive scoring · Classification · Rule matching</div></div>
+          <div class="pc-div"></div>
+          <div class="pc-rows">
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Parses structured form inputs, validates field formats and routes data to downstream systems via rule-based pipelines — a well-established ML use case.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Rule-based API calls to bureau endpoints are deterministic and highly reliable — a core strength of traditional integration frameworks.</span></div></div>
+            <div class="pc-row"><div class="pc-st no">✗</div><div class="row-info">i<span class="tip">Limitation: Document understanding requires reading unstructured PDFs and images. Traditional AI lacks OCR-to-semantic-reasoning capability needed for nuanced KYC checks.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Logistic regression, gradient boosting, and scorecard models are the industry standard for PD estimation using tabular financial data.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Compliance rules are codified as hard business rules — deterministic and auditable. Traditional AI excels at rule-matching against policy frameworks.</span></div></div>
+            <div class="pc-row"><div class="pc-st no">✗</div><div class="row-info">i<span class="tip">Limitation: Generating natural language loan letters and personalised term sheets requires language generation capability absent in traditional ML models.</span></div></div>
+            <div class="pc-row"><div class="pc-st no">✗</div><div class="row-info">i<span class="tip">Limitation: Conversational NLU is not possible without a language model. Traditional AI can send templated alerts but cannot handle open-ended dialogue.</span></div></div>
+            <div class="pc-row"><div class="pc-st no">✗</div><div class="row-info">i<span class="tip">Limitation: Siloed ML models cannot orchestrate multi-system workflows. Manual handoffs between teams are required to bridge system boundaries.</span></div></div>
+          </div>
+          <div class="pc-score"><div class="sc-lbl">Coverage</div><div class="sc-bar"><div class="sc-fill" data-v="50"></div></div><div class="sc-pct">50%</div></div>
+        </div>
+        <!-- Gen AI -->
+        <div class="pc gen" id="pc01">
+          <div class="pc-crown">👑</div><div class="pc-stripe"></div>
+          <div class="pc-head"><div class="pc-dot"></div><div class="pc-name">Generative AI</div><div class="pc-tag">LLM · GPT</div></div>
+          <div class="pc-sub-wrap" id="psw01"><div class="pc-sub">Large language models that understand context, process unstructured documents and generate fluent text. Limited on real-time data and autonomous action.</div>
+          <div class="pc-cap">🧠 Natural language · Summarisation · Generation</div></div>
+          <div class="pc-div"></div>
+          <div class="pc-rows">
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">LLMs can extract fields from free-text emails, PDFs and voice transcripts, dramatically reducing manual data entry at intake.</span></div></div>
+            <div class="pc-row"><div class="pc-st no">✗</div><div class="row-info">i<span class="tip">Limitation: No live API integration. Gen AI has no access to real-time bureau endpoints; results would be fabricated from training data, which is unacceptable for credit decisions.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Multimodal LLMs can read, interpret, and cross-validate scanned ID documents, salary slips and bank statements against stated values with high accuracy.</span></div></div>
+            <div class="pc-row"><div class="pc-st pt">−</div><div class="row-info">i<span class="tip">Conditional: Can interpret risk scores produced by traditional models and explain them in natural language. Cannot independently compute statistically valid PD without structured model integration.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Can map application attributes against regulatory text and flag potential violations with cited clauses — very effective when policy documents are provided in context.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Generates personalised sanction letters, offer sheets and rejection notices in professional language with contextualised explanations — a top Gen AI strength.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Conversational chatbots powered by LLMs handle complex loan queries, status updates and document requests with high customer satisfaction.</span></div></div>
+            <div class="pc-row"><div class="pc-st no">✗</div><div class="row-info">i<span class="tip">Limitation: No agency or tool-use. Gen AI can draft instructions and summaries but cannot autonomously trigger API calls, update systems or coordinate multi-step workflows.</span></div></div>
+          </div>
+          <div class="pc-score"><div class="sc-lbl">Coverage</div><div class="sc-bar"><div class="sc-fill" data-v="63"></div></div><div class="sc-pct">63%</div></div>
+        </div>
+        <!-- RAG -->
+        <div class="pc rag" id="pc02">
+          <div class="pc-crown">👑</div><div class="pc-stripe"></div>
+          <div class="pc-head"><div class="pc-dot"></div><div class="pc-name">RAG</div><div class="pc-tag">Retrieval AI</div></div>
+          <div class="pc-sub-wrap" id="psw02"><div class="pc-sub">Grounds LLMs with live knowledge bases, policy docs, and real-time data. Dramatically reduces hallucination and improves decision accuracy.</div>
+          <div class="pc-cap">🔍 Knowledge retrieval · Policy grounding · Accuracy</div></div>
+          <div class="pc-div"></div>
+          <div class="pc-rows">
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Retrieves pre-fill data from existing customer records in CRM or KYC repositories to auto-populate forms, reducing friction and errors at intake.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">RAG can be connected to live bureau APIs as retrieval sources, providing grounded, real-time credit data to the LLM reasoning layer.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Retrieves historical verified document patterns and fraud cases to cross-reference current submissions, improving verification accuracy over standalone Gen AI.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Retrieves comparable loan profiles and historical default data from the knowledge base, grounding risk assessments with evidence and reducing hallucination risk.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Retrieves exact regulatory clauses from structured compliance repositories, ensuring policy checks are grounded in the latest RBI/SEBI/FEMA guidelines with full citations.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Retrieves standard loan terms, precedent decisions and product templates to generate highly accurate, consistent offer letters with minimal hallucination.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Retrieves FAQs, product guides and customer history to give highly contextualised, accurate answers — significantly better than pure Gen AI for compliance-sensitive communications.</span></div></div>
+            <div class="pc-row"><div class="pc-st pt">−</div><div class="row-info">i<span class="tip">Conditional: RAG improves information retrieval across systems but still lacks autonomous execution. Requires an orchestration layer or human to trigger cross-system actions.</span></div></div>
+          </div>
+          <div class="pc-score"><div class="sc-lbl">Coverage</div><div class="sc-bar"><div class="sc-fill" data-v="88"></div></div><div class="sc-pct">88%</div></div>
+        </div>
+        <!-- Agentic AI -->
+        <div class="pc agnt" id="pc03">
+          <div class="pc-crown">👑</div><div class="pc-stripe"></div>
+          <div class="pc-head"><div class="pc-dot"></div><div class="pc-name">Agentic AI</div><div class="pc-tag">Autonomous</div></div>
+          <div class="pc-sub-wrap" id="psw03"><div class="pc-sub">Autonomous agents that plan, reason across multiple steps, use integrated tools, and execute complete workflows end-to-end with self-correction.</div>
+          <div class="pc-cap">🤖 Autonomous planning · Tool use · Full orchestration</div></div>
+          <div class="pc-div"></div>
+          <div class="pc-rows">
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Autonomously extracts, validates and submits intake data via multi-step tool calls — pulling from emails, documents and portals without any human intervention.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Agent calls bureau APIs directly as tools, retrieves scores in real-time, parses reports and stores results in the LOS — fully automated with audit logging.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Uses multimodal tools to read and verify documents, cross-references against sanctions lists and fraud databases, and flags anomalies — end-to-end with no human in the loop.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Orchestrates traditional risk models as sub-tools, interprets outputs, enriches with retrieved context, and produces a final explainable risk decision — combining ML precision with LLM reasoning.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Retrieves current regulatory frameworks, applies them deterministically, generates a compliance memo and escalates to human review only on exceptions — fully autonomous.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Generates, validates and issues the loan decision document autonomously — updating the LOS, triggering disbursement workflows and archiving all evidence.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Proactively contacts applicants via preferred channels, answers real-time queries, escalates complex issues and logs all interactions — 24/7 without agent supervision.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">The defining capability: orchestrates the entire LOS pipeline — from intake through disbursement — across all integrated systems autonomously, with human oversight only for policy exceptions.</span></div></div>
+          </div>
+          <div class="pc-score"><div class="sc-lbl">Coverage</div><div class="sc-bar"><div class="sc-fill" data-v="100"></div></div><div class="sc-pct">100%</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ UC 1 ════════════════════ -->
+<div class="panel" id="p1">
+  <div class="intro-wrap" id="iw1">
+    <div class="intro-card" id="ic1">
+      <div class="intro-emo">🛡️</div>
+      <div class="intro-left">
+        <div class="intro-lbl">Use Case 02 · Risk &amp; Compliance</div>
+        <div class="intro-title">Fraud Detection &amp; AML Compliance</div>
+        <div class="intro-body" id="ib1">A mission-critical process identifying, investigating, and reporting suspicious financial activity — combining real-time transaction monitoring, anomaly detection, entity risk profiling, alert triage, SAR/CTR regulatory filings, cross-system data correlation, customer dispute management, and continuous adaptive model retraining.</div>
+      </div>
+      <div class="intro-right" id="ir1" style="display:none;">
+        <button class="expand-btn" id="eb1" onclick="toggleIntro(1)"><span class="eico">▲</span> Hide Details</button>
+      </div>
+    </div>
+  </div>
+  <div class="ag" id="ag1" style="display:none;">
+    <div class="tasks-col" id="tc1">
+      <div class="tc-head">Process Tasks</div>
+      <div class="tc-inner">
+        <div class="t-item"><div class="t-num">T1</div><div class="t-text-wrap"><div class="t-name">Real-time transaction monitoring</div><div class="i-btn">i<span class="tip">Continuously scan every transaction as it occurs — evaluating velocity, geography, amount patterns and counterparty risk to instantly flag suspicious activity before settlement.</span></div></div></div>
+        <div class="t-item"><div class="t-num">T2</div><div class="t-text-wrap"><div class="t-name">Anomaly &amp; pattern detection</div><div class="i-btn">i<span class="tip">Identify deviations from a customer's established behaviour baseline using statistical models and graph analytics to surface hidden fraud rings and mule networks.</span></div></div></div>
+        <div class="t-item"><div class="t-num">T3</div><div class="t-text-wrap"><div class="t-name">Customer &amp; entity risk profiling</div><div class="i-btn">i<span class="tip">Build comprehensive risk profiles from KYC data, transaction history, adverse news, PEP/sanctions screening and network linkages — updated continuously as new data arrives.</span></div></div></div>
+        <div class="t-item"><div class="t-num">T4</div><div class="t-text-wrap"><div class="t-name">Alert triage &amp; case investigation</div><div class="i-btn">i<span class="tip">Prioritise the volume of fraud alerts by risk severity, gather supporting evidence across systems, and produce a structured investigation dossier for analyst review or autonomous resolution.</span></div></div></div>
+        <div class="t-item"><div class="t-num">T5</div><div class="t-text-wrap"><div class="t-name">SAR / regulatory report generation</div><div class="i-btn">i<span class="tip">Produce Suspicious Activity Reports (SARs) and Currency Transaction Reports (CTRs) in the precise regulatory format required by FIU-IND / FinCEN — narrative, evidence, and filing metadata.</span></div></div></div>
+        <div class="t-item"><div class="t-num">T6</div><div class="t-text-wrap"><div class="t-name">Cross-system data correlation</div><div class="i-btn">i<span class="tip">Join signals from core banking, card systems, trade finance, CRM, external threat intelligence feeds and sanctions databases to identify fraud patterns invisible in any single system.</span></div></div></div>
+        <div class="t-item"><div class="t-num">T7</div><div class="t-text-wrap"><div class="t-name">Customer dispute &amp; communication</div><div class="i-btn">i<span class="tip">Handle customer queries about blocked transactions, chargeback claims and fraud notifications with consistent, compliant communication — reducing manual effort in dispute resolution teams.</span></div></div></div>
+        <div class="t-item"><div class="t-num">T8</div><div class="t-text-wrap"><div class="t-name">Model retraining &amp; threat adaptation</div><div class="i-btn">i<span class="tip">Continuously update fraud detection models with new labelled cases, emerging typologies, and feedback from investigation outcomes — reducing model decay without manual ML engineer intervention.</span></div></div></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:.6rem;flex:1;min-width:0;">
+      <div class="table-controls">
+        <div class="legend-area">
+          <div class="legend">
+            <div class="leg-item"><div class="leg-ic ok">✓</div> Fully Capable</div>
+            <div class="leg-item"><div class="leg-ic pt">−</div> Conditionally Capable</div>
+            <div class="leg-item"><div class="leg-ic no">✗</div> Not Capable</div>
+          </div>
+          <button class="flag-info-btn" onclick="toggleFlagPanel(1)">&#9432; What do these flags mean?</button>
+        </div>
+        <button class="global-toggle-btn" id="gtb1" onclick="toggleAllDescriptions(1)">
+          <span class="gt-ico">&#9650;</span> <span id="gtl1">Collapse Descriptions</span>
+        </button>
+      </div>
+      <div class="flag-panel" id="fp1">
+        <div class="flag-panel-grid">
+          <div class="flag-def"><div class="flag-def-ic ok">✓</div><div><div class="flag-def-title">Fully Capable</div><div class="flag-def-desc">The AI platform can independently handle this task end-to-end at production quality, without requiring manual intervention or significant workarounds.</div></div></div>
+          <div class="flag-def"><div class="flag-def-ic pt">−</div><div><div class="flag-def-title">Conditionally Capable</div><div class="flag-def-desc">The platform can partially address this task but requires specific integrations, human oversight, additional tooling, or specific conditions to deliver reliable results.</div></div></div>
+          <div class="flag-def"><div class="flag-def-ic no">✗</div><div><div class="flag-def-title">Not Capable</div><div class="flag-def-desc">The platform fundamentally cannot address this task due to architectural limitations — not a gap bridgeable with configuration or prompting alone.</div></div></div>
+        </div>
+      </div>
+      <div class="plats-row" id="pr1">
+        <!-- Traditional AI -->
+        <div class="pc trad" id="pc10">
+          <div class="pc-crown">👑</div><div class="pc-stripe"></div>
+          <div class="pc-head"><div class="pc-dot"></div><div class="pc-name">Traditional AI</div><div class="pc-tag">ML · Rules</div></div>
+          <div class="pc-sub-wrap" id="psw04"><div class="pc-sub">Rules engines and ML classifiers excel at high-speed transaction scoring but struggle with novel patterns, multi-system correlation, and investigative tasks.</div>
+          <div class="pc-cap">⚙️ Scoring · Rule matching · Classification</div></div>
+          <div class="pc-div"></div>
+          <div class="pc-rows">
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Real-time scoring engines processing thousands of transactions per second with sub-millisecond latency is the core strength of traditional ML fraud models.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Statistical anomaly models (Isolation Forest, autoencoders) are effective at identifying known deviation patterns from established baselines in structured data.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Rule-based risk scores computed from KYC attributes and transaction history are reliable for structured profiling within a single data domain.</span></div></div>
+            <div class="pc-row"><div class="pc-st no">✗</div><div class="row-info">i<span class="tip">Limitation: Alert triage requires reading unstructured case notes, synthesising evidence and applying judgment — tasks requiring language understanding absent in traditional ML.</span></div></div>
+            <div class="pc-row"><div class="pc-st no">✗</div><div class="row-info">i<span class="tip">Limitation: SAR narratives must be written in coherent legal language explaining the suspicious activity. Traditional AI cannot generate natural language regulatory reports.</span></div></div>
+            <div class="pc-row"><div class="pc-st no">✗</div><div class="row-info">i<span class="tip">Limitation: Siloed models cannot join signals across disparate systems without a dedicated ETL/integration pipeline — requires significant engineering not inherent to the AI itself.</span></div></div>
+            <div class="pc-row"><div class="pc-st no">✗</div><div class="row-info">i<span class="tip">Limitation: No natural language capability. Customer communication is limited to templated rule-triggered alerts without conversational understanding.</span></div></div>
+            <div class="pc-row"><div class="pc-st pt">−</div><div class="row-info">i<span class="tip">Conditional: Models can be retrained on new labelled data but requires manual feature engineering, pipeline rebuilding and MLOps processes — not autonomous adaptation.</span></div></div>
+          </div>
+          <div class="pc-score"><div class="sc-lbl">Coverage</div><div class="sc-bar"><div class="sc-fill" data-v="38"></div></div><div class="sc-pct">38%</div></div>
+        </div>
+        <!-- Gen AI -->
+        <div class="pc gen" id="pc11">
+          <div class="pc-crown">👑</div><div class="pc-stripe"></div>
+          <div class="pc-head"><div class="pc-dot"></div><div class="pc-name">Generative AI</div><div class="pc-tag">LLM · GPT</div></div>
+          <div class="pc-sub-wrap" id="psw05"><div class="pc-sub">Generates readable investigation summaries and regulatory filings from raw data. Improves analyst productivity but lacks real-time access and cannot auto-adapt models.</div>
+          <div class="pc-cap">🧠 Report writing · Summarisation · Dialogue</div></div>
+          <div class="pc-div"></div>
+          <div class="pc-rows">
+            <div class="pc-row"><div class="pc-st no">✗</div><div class="row-info">i<span class="tip">Limitation: Gen AI has no access to live transaction streams. Monitoring requires real-time data pipelines and sub-second inference — fundamentally incompatible with batch-oriented LLMs.</span></div></div>
+            <div class="pc-row"><div class="pc-st no">✗</div><div class="row-info">i<span class="tip">Limitation: Anomaly detection requires statistical modelling on high-volume numerical data. Gen AI lacks the quantitative modelling capability to compute reliable anomaly scores.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Can synthesise unstructured adverse news, social data and investigation notes into rich narrative risk profiles that complement structured KYC data.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Excellent at reading alert details, pulling together evidence from documents and case notes, and producing a structured investigation summary for analyst review.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">A flagship use case: Gen AI generates compliant, coherent SAR narratives from investigation summaries — reducing the most time-consuming step in the AML workflow.</span></div></div>
+            <div class="pc-row"><div class="pc-st pt">−</div><div class="row-info">i<span class="tip">Conditional: Can synthesise information across documents if provided in context, but cannot independently query and join data across live disparate systems without integration.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Handles customer queries about disputed transactions, provides clear explanations of fraud blocks and guides through chargeback processes with empathetic, precise language.</span></div></div>
+            <div class="pc-row"><div class="pc-st no">✗</div><div class="row-info">i<span class="tip">Limitation: Static training data. Gen AI cannot autonomously trigger model retraining pipelines or update its own feature engineering based on new fraud typologies.</span></div></div>
+          </div>
+          <div class="pc-score"><div class="sc-lbl">Coverage</div><div class="sc-bar"><div class="sc-fill" data-v="50"></div></div><div class="sc-pct">50%</div></div>
+        </div>
+        <!-- RAG -->
+        <div class="pc rag" id="pc12">
+          <div class="pc-crown">👑</div><div class="pc-stripe"></div>
+          <div class="pc-head"><div class="pc-dot"></div><div class="pc-name">RAG</div><div class="pc-tag">Retrieval AI</div></div>
+          <div class="pc-sub-wrap" id="psw06"><div class="pc-sub">Connects LLMs to regulatory databases, prior case files, and AML policy libraries — improving investigation quality and report accuracy with grounded evidence.</div>
+          <div class="pc-cap">🔍 Regulatory retrieval · Case knowledge · Grounding</div></div>
+          <div class="pc-div"></div>
+          <div class="pc-rows">
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Can be connected to real-time transaction feeds as a retrieval source, enabling the LLM to query and reason over live transaction data with full grounding.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Retrieves historical fraud typology documents and pattern libraries to ground anomaly reasoning — significantly reducing false positives over pure Gen AI.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Retrieves adverse media, sanctions lists, PEP databases and prior investigation reports to build grounded, citable entity risk profiles with high accuracy.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Retrieves prior similar cases and investigation playbooks from case management systems, dramatically improving investigation quality and consistency of outcomes.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Retrieves exact SAR templates, regulatory guidance notes and prior approved filings to generate compliant reports with precise language and verifiable citations.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Designed for cross-system retrieval — can query multiple vector stores and structured databases simultaneously to correlate signals from disparate sources.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Retrieves account history, prior dispute outcomes and product terms to give highly accurate, contextualised customer responses with cited evidence.</span></div></div>
+            <div class="pc-row"><div class="pc-st no">✗</div><div class="row-info">i<span class="tip">Limitation: RAG retrieves but does not act. Triggering model retraining pipelines requires autonomous execution capability that RAG alone does not provide.</span></div></div>
+          </div>
+          <div class="pc-score"><div class="sc-lbl">Coverage</div><div class="sc-bar"><div class="sc-fill" data-v="88"></div></div><div class="sc-pct">88%</div></div>
+        </div>
+        <!-- Agentic AI -->
+        <div class="pc agnt" id="pc13">
+          <div class="pc-crown">👑</div><div class="pc-stripe"></div>
+          <div class="pc-head"><div class="pc-dot"></div><div class="pc-name">Agentic AI</div><div class="pc-tag">Autonomous</div></div>
+          <div class="pc-sub-wrap" id="psw07"><div class="pc-sub">Fully autonomous fraud agents — monitoring, detecting, investigating, filing reports, communicating with customers, and adapting detection models 24/7.</div>
+          <div class="pc-cap">🤖 Autonomous investigation · Self-adaptation</div></div>
+          <div class="pc-div"></div>
+          <div class="pc-rows">
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Agent subscribes to real-time transaction event streams, applies scoring tools in real-time, and autonomously blocks suspect transactions pending investigation — end-to-end without human involvement.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Orchestrates statistical anomaly models as sub-tools, enriches with network graph analysis, and produces explainable anomaly reports — combining ML precision with LLM reasoning at scale.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Continuously retrieves and synthesises data from KYC, adverse media, sanctions APIs and transaction history to maintain living risk profiles — updated in real time.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Autonomously triages all alerts by risk level, gathers cross-system evidence, investigates cases using retrieval tools, and resolves or escalates — reducing case closure time from days to minutes.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Generates, validates, and submits SARs and CTRs autonomously — including narrative, evidence attachments and XML/JSON filing formats — with a full audit trail.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Natively orchestrates data retrieval across all integrated systems — core banking, card, trade, CRM, sanctions — joining signals that no single-system model can see.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Proactively contacts customers about fraud events, guides through dispute processes, and resolves standard cases autonomously — 24/7 with full interaction logging.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Monitors model performance, identifies concept drift, triggers retraining pipelines with new labelled cases, and validates updated models before production deployment — fully autonomous ML operations.</span></div></div>
+          </div>
+          <div class="pc-score"><div class="sc-lbl">Coverage</div><div class="sc-bar"><div class="sc-fill" data-v="100"></div></div><div class="sc-pct">100%</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ UC 2 ════════════════════ -->
+<div class="panel" id="p2">
+  <div class="intro-wrap" id="iw2">
+    <div class="intro-card" id="ic2">
+      <div class="intro-emo">💼</div>
+      <div class="intro-left">
+        <div class="intro-lbl">Use Case 03 · Client Advisory</div>
+        <div class="intro-title">Wealth Management &amp; Client Advisory</div>
+        <div class="intro-body" id="ib2">A relationship-intensive financial service delivering personalised investment guidance — combining client risk profiling, portfolio analysis, real-time market research, recommendation generation, MiFID II suitability validation, bespoke reporting, proactive client outreach, and automated portfolio rebalancing with trade execution oversight.</div>
+      </div>
+      <div class="intro-right" id="ir2" style="display:none;">
+        <button class="expand-btn" id="eb2" onclick="toggleIntro(2)"><span class="eico">▲</span> Hide Details</button>
+      </div>
+    </div>
+  </div>
+  <div class="ag" id="ag2" style="display:none;">
+    <div class="tasks-col" id="tc2">
+      <div class="tc-head">Process Tasks</div>
+      <div class="tc-inner">
+        <div class="t-item"><div class="t-num">T1</div><div class="t-text-wrap"><div class="t-name">Client risk profiling &amp; KYC</div><div class="i-btn">i<span class="tip">Assess client's investment objectives, time horizon, risk tolerance, liquidity needs and tax situation through structured questionnaires enriched with behavioural data and prior engagement history.</span></div></div></div>
+        <div class="t-item"><div class="t-num">T2</div><div class="t-text-wrap"><div class="t-name">Portfolio performance analysis</div><div class="i-btn">i<span class="tip">Evaluate current portfolio holdings against benchmarks, compute alpha, Sharpe ratio, drawdowns and factor exposures — providing the analytical foundation for all advisory actions.</span></div></div></div>
+        <div class="t-item"><div class="t-num">T3</div><div class="t-text-wrap"><div class="t-name">Market research &amp; intelligence</div><div class="i-btn">i<span class="tip">Synthesise macro-economic indicators, equity research, fixed income analysis, geopolitical risk and sector news into actionable intelligence tailored to the client's current portfolio.</span></div></div></div>
+        <div class="t-item"><div class="t-num">T4</div><div class="t-text-wrap"><div class="t-name">Personalised investment recommendations</div><div class="i-btn">i<span class="tip">Generate bespoke investment recommendations — specific securities, funds or rebalancing actions — aligned with the client's risk profile, goals and current market conditions.</span></div></div></div>
+        <div class="t-item"><div class="t-num">T5</div><div class="t-text-wrap"><div class="t-name">Regulatory suitability checks (MiFID II)</div><div class="i-btn">i<span class="tip">Validate every recommendation against MiFID II suitability requirements — ensuring the product matches the client's knowledge, experience, financial situation and investment objectives.</span></div></div></div>
+        <div class="t-item"><div class="t-num">T6</div><div class="t-text-wrap"><div class="t-name">Client report &amp; statement generation</div><div class="i-btn">i<span class="tip">Produce personalised portfolio statements, performance reviews and advisory reports in plain language — replacing generic templated documents with bespoke, insight-rich communications.</span></div></div></div>
+        <div class="t-item"><div class="t-num">T7</div><div class="t-text-wrap"><div class="t-name">Proactive client outreach &amp; Q&amp;A</div><div class="i-btn">i<span class="tip">Initiate client contact on market-moving events relevant to their portfolio, answer complex investment queries, and schedule advisor calls — acting as an always-on digital relationship manager.</span></div></div></div>
+        <div class="t-item"><div class="t-num">T8</div><div class="t-text-wrap"><div class="t-name">Rebalancing &amp; trade execution</div><div class="i-btn">i<span class="tip">Execute approved portfolio rebalancing instructions through OMS/trading systems — placing orders, managing execution risk, confirming fills and updating portfolio records with full audit trails.</span></div></div></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:.6rem;flex:1;min-width:0;">
+      <div class="table-controls">
+        <div class="legend-area">
+          <div class="legend">
+            <div class="leg-item"><div class="leg-ic ok">✓</div> Fully Capable</div>
+            <div class="leg-item"><div class="leg-ic pt">−</div> Conditionally Capable</div>
+            <div class="leg-item"><div class="leg-ic no">✗</div> Not Capable</div>
+          </div>
+          <button class="flag-info-btn" onclick="toggleFlagPanel(2)">&#9432; What do these flags mean?</button>
+        </div>
+        <button class="global-toggle-btn" id="gtb2" onclick="toggleAllDescriptions(2)">
+          <span class="gt-ico">&#9650;</span> <span id="gtl2">Collapse Descriptions</span>
+        </button>
+      </div>
+      <div class="flag-panel" id="fp2">
+        <div class="flag-panel-grid">
+          <div class="flag-def"><div class="flag-def-ic ok">✓</div><div><div class="flag-def-title">Fully Capable</div><div class="flag-def-desc">The AI platform can independently handle this task end-to-end at production quality, without requiring manual intervention or significant workarounds.</div></div></div>
+          <div class="flag-def"><div class="flag-def-ic pt">−</div><div><div class="flag-def-title">Conditionally Capable</div><div class="flag-def-desc">The platform can partially address this task but requires specific integrations, human oversight, additional tooling, or specific conditions to deliver reliable results.</div></div></div>
+          <div class="flag-def"><div class="flag-def-ic no">✗</div><div><div class="flag-def-title">Not Capable</div><div class="flag-def-desc">The platform fundamentally cannot address this task due to architectural limitations — not a gap bridgeable with configuration or prompting alone.</div></div></div>
+        </div>
+      </div>
+      <div class="plats-row" id="pr2">
+        <!-- Traditional AI -->
+        <div class="pc trad" id="pc20">
+          <div class="pc-crown">👑</div><div class="pc-stripe"></div>
+          <div class="pc-head"><div class="pc-dot"></div><div class="pc-name">Traditional AI</div><div class="pc-tag">ML · Rules</div></div>
+          <div class="pc-sub-wrap" id="psw08"><div class="pc-sub">Quantitative models excel at portfolio analytics and risk profiling, but communication, research synthesis, and autonomous execution are beyond reach.</div>
+          <div class="pc-cap">⚙️ Portfolio analytics · Risk scoring · Optimisation</div></div>
+          <div class="pc-div"></div>
+          <div class="pc-rows">
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Clustering and classification models effectively segment clients into risk bands using structured questionnaire and demographic data — a well-established quantitative use case.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Quantitative analytics engines compute all standard performance metrics (alpha, beta, Sharpe, VaR) with precision — the foundational strength of traditional quant models.</span></div></div>
+            <div class="pc-row"><div class="pc-st no">✗</div><div class="row-info">i<span class="tip">Limitation: Synthesising unstructured research reports, news feeds and analyst commentary requires NLP and language understanding capabilities absent in traditional ML.</span></div></div>
+            <div class="pc-row"><div class="pc-st pt">−</div><div class="row-info">i<span class="tip">Conditional: Mean-variance optimisation and factor models generate quantitative recommendations, but they lack personalised language generation and cannot explain rationale in natural language.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Rules engines effectively codify MiFID II suitability criteria as deterministic checks — flagging mismatches between product attributes and client classification with high reliability.</span></div></div>
+            <div class="pc-row"><div class="pc-st no">✗</div><div class="row-info">i<span class="tip">Limitation: Generating personalised, insight-rich narrative reports requires language generation. Traditional AI can produce data tables but not human-readable advisory content.</span></div></div>
+            <div class="pc-row"><div class="pc-st no">✗</div><div class="row-info">i<span class="tip">Limitation: No NLU capability. Proactive communication is limited to templated alerts triggered by rule conditions — no conversational understanding for complex advisory Q&amp;A.</span></div></div>
+            <div class="pc-row"><div class="pc-st pt">−</div><div class="row-info">i<span class="tip">Conditional: Optimisation algorithms generate rebalancing weights, but trade execution requires system integration and autonomous action capability not inherent to traditional ML models.</span></div></div>
+          </div>
+          <div class="pc-score"><div class="sc-lbl">Coverage</div><div class="sc-bar"><div class="sc-fill" data-v="50"></div></div><div class="sc-pct">50%</div></div>
+        </div>
+        <!-- Gen AI -->
+        <div class="pc gen" id="pc21">
+          <div class="pc-crown">👑</div><div class="pc-stripe"></div>
+          <div class="pc-head"><div class="pc-dot"></div><div class="pc-name">Generative AI</div><div class="pc-tag">LLM · GPT</div></div>
+          <div class="pc-sub-wrap" id="psw09"><div class="pc-sub">Excels at synthesising research, generating personalised reports, and communicating with clients. Cannot access live markets or execute trades autonomously.</div>
+          <div class="pc-cap">🧠 Research synthesis · Report generation · Dialogue</div></div>
+          <div class="pc-div"></div>
+          <div class="pc-rows">
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Conducts rich, conversational client discovery interviews, processes free-text responses and synthesises a comprehensive risk profile narrative — far beyond structured questionnaire models.</span></div></div>
+            <div class="pc-row"><div class="pc-st pt">−</div><div class="row-info">i<span class="tip">Conditional: Can interpret and summarise portfolio analytics reports provided as context. Cannot independently compute quantitative metrics without integration with analytics tools.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Reads and synthesises large volumes of equity research, news, analyst reports and macro commentary into concise, personalised market intelligence summaries.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Generates personalised, well-reasoned investment recommendations in natural language — explaining the rationale, risks and alignment with client objectives in an accessible way.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Can assess recommendation suitability against MiFID II criteria defined in its context, flag potential compliance gaps and suggest compliant alternatives.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Generates highly personalised, narrative-rich portfolio statements and advisory letters that go far beyond standard template-based reports — a flagship Gen AI use case.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Handles complex investment Q&amp;A, explains market events in portfolio context, and drafts proactive client outreach messages aligned with individual portfolio positions.</span></div></div>
+            <div class="pc-row"><div class="pc-st no">✗</div><div class="row-info">i<span class="tip">Limitation: No action capability. Gen AI can generate rebalancing instructions but cannot connect to OMS or trading systems to execute trades.</span></div></div>
+          </div>
+          <div class="pc-score"><div class="sc-lbl">Coverage</div><div class="sc-bar"><div class="sc-fill" data-v="75"></div></div><div class="sc-pct">75%</div></div>
+        </div>
+        <!-- RAG -->
+        <div class="pc rag" id="pc22">
+          <div class="pc-crown">👑</div><div class="pc-stripe"></div>
+          <div class="pc-head"><div class="pc-dot"></div><div class="pc-name">RAG</div><div class="pc-tag">Retrieval AI</div></div>
+          <div class="pc-sub-wrap" id="psw10"><div class="pc-sub">Live market data, analyst research and client history ground advisory outputs with verifiable citations. Near-complete coverage except autonomous trade execution.</div>
+          <div class="pc-cap">🔍 Market data retrieval · Research grounding</div></div>
+          <div class="pc-div"></div>
+          <div class="pc-rows">
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Retrieves prior client interaction history, investment preferences and life events from CRM to produce richly grounded, contextualised risk profiles.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Retrieves live portfolio data, benchmark values and prior performance reports to ground analysis in current, verified numbers with full data citations.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Retrieves latest analyst research, earnings reports, macro data releases and news feeds in real-time to provide always-current, grounded market intelligence.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Combines retrieved market data, research and client profile to generate well-grounded, explainable investment recommendations with cited evidence — significantly superior to pure Gen AI.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Retrieves exact MiFID II regulation text, product fact sheets and client classifications to perform grounded, auditable suitability assessments with full regulatory citations.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Retrieves current portfolio data and market context to produce highly accurate, data-rich reports with precise figures and verifiable sources — the gold standard for advisory reporting.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Retrieves client-specific portfolio context and recent market events to trigger and personalise proactive outreach — more relevant and accurate than pure Gen AI communications.</span></div></div>
+            <div class="pc-row"><div class="pc-st no">✗</div><div class="row-info">i<span class="tip">Limitation: RAG retrieves and reasons but cannot execute. Connecting to OMS, placing orders and managing trade lifecycle requires autonomous action capability beyond RAG's scope.</span></div></div>
+          </div>
+          <div class="pc-score"><div class="sc-lbl">Coverage</div><div class="sc-bar"><div class="sc-fill" data-v="88"></div></div><div class="sc-pct">88%</div></div>
+        </div>
+        <!-- Agentic AI -->
+        <div class="pc agnt" id="pc23">
+          <div class="pc-crown">👑</div><div class="pc-stripe"></div>
+          <div class="pc-head"><div class="pc-dot"></div><div class="pc-name">Agentic AI</div><div class="pc-tag">Autonomous</div></div>
+          <div class="pc-sub-wrap" id="psw11"><div class="pc-sub">The complete digital wealth advisor — profiles, analyses, researches, advises, validates compliance, communicates and executes trades autonomously with full audit trails.</div>
+          <div class="pc-cap">🤖 Full advisory cycle · Autonomous execution</div></div>
+          <div class="pc-div"></div>
+          <div class="pc-rows">
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Conducts comprehensive onboarding, retrieves all relevant history and regulatory records, and maintains a continuously updated, living risk profile — fully autonomous with human review option.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Queries portfolio management systems directly, runs quantitative analysis tools, and produces a comprehensive analytics report — all orchestrated in a single autonomous workflow.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Autonomously retrieves, reads, and synthesises real-time market data, research reports and news feeds to produce always-current, deeply personalised market intelligence for each client.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Orchestrates analytics tools, research retrieval and reasoning to produce multi-factor investment recommendations with full explanations — personalised to each client at scale.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Autonomously runs MiFID II suitability checks against live regulatory rules, flags any issues, suggests compliant alternatives and logs the entire assessment for regulatory audit purposes.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Autonomously generates, formats and delivers bespoke portfolio reports and advisory letters — personalised for each client, at any frequency, with zero manual effort.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">Proactively monitors client portfolios, detects material market events, initiates personalised outreach across preferred channels, and handles follow-up Q&amp;A — acting as a 24/7 digital RM.</span></div></div>
+            <div class="pc-row"><div class="pc-st ok">✓</div><div class="row-info">i<span class="tip">The defining differentiator: connects to OMS tools, places orders on approved rebalancing instructions, manages execution, confirms fills and updates records — closing the full advisory loop autonomously.</span></div></div>
+          </div>
+          <div class="pc-score"><div class="sc-lbl">Coverage</div><div class="sc-bar"><div class="sc-fill" data-v="100"></div></div><div class="sc-pct">100%</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /stage -->
+
+<!-- CONTROLS BAR -->
+<div class="ctrl-bar">
+  <div class="step-info">
+    <div class="step-dot" id="sd0"></div><div class="step-dot" id="sd1"></div><div class="step-dot" id="sd2"></div>
+    <div class="step-dot" id="sd3"></div><div class="step-dot" id="sd4"></div><div class="step-dot" id="sd5"></div>
+    <div class="step-dot" id="sd6"></div><div class="step-dot" id="sd7"></div><div class="step-dot" id="sd8"></div>
+    <span class="step-lbl" id="sLbl">Use Case Overview</span>
+  </div>
+  <div class="ctrl-right">
+    <div class="kb-hint"><span class="kb">→</span><span class="kb">Enter</span><span style="color:var(--text-faint);font-size:.77rem">advance</span></div>
+    <button class="rst-btn" onclick="resetTab()">↺ Reset</button>
+    <button class="nxt-btn" id="nBtn" onclick="advance()"><span id="nLbl">Show Tasks</span><span>→</span></button>
+  </div>
+</div>
+
+<!-- CHAMPION MODAL -->
+<div class="modal-veil" id="mv">
+  <div class="champ-modal">
+    <div class="modal-bar"></div>
+    <div class="modal-body">
+      <div class="modal-glow"></div>
+      <div class="modal-stars" id="mStars"></div>
+      <div class="modal-close-x" onclick="closeM()">✕</div>
+      <div class="modal-trophy">🏆</div>
+      <div class="modal-eyebrow">Platform Champion · Declared</div>
+      <div class="modal-headline">The Undisputed Leader Is</div>
+      <div class="modal-champ-name">Agentic AI</div>
+      <div class="modal-desc" id="mD">—</div>
+      <div class="modal-pills">
+        <div class="m-pill"><div class="m-pill-top"><div class="m-pill-dot" style="background:var(--trad)"></div><div class="m-pill-plat">Traditional AI</div></div><div class="m-pill-val" id="ms0">—</div></div>
+        <div class="m-pill"><div class="m-pill-top"><div class="m-pill-dot" style="background:var(--gen)"></div><div class="m-pill-plat">Generative AI</div></div><div class="m-pill-val" id="ms1">—</div></div>
+        <div class="m-pill"><div class="m-pill-top"><div class="m-pill-dot" style="background:var(--rag)"></div><div class="m-pill-plat">RAG</div></div><div class="m-pill-val" id="ms2">—</div></div>
+        <div class="m-pill win"><div class="m-pill-top"><div class="m-pill-dot" style="background:var(--gold)"></div><div class="m-pill-plat">🏆 Agentic AI</div></div><div class="m-pill-val" id="ms3">—</div></div>
+      </div>
+      <button class="modal-cta" onclick="closeM()">Close &amp; Continue Exploring</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── DATA ── */
+const SCORES=[
+  {t:'50%',g:'63%',r:'88%',a:'100%'},
+  {t:'38%',g:'50%',r:'88%',a:'100%'},
+  {t:'50%',g:'75%',r:'88%',a:'100%'}
+];
+const DESCS=[
+  'Agentic AI achieves 100% task coverage across the entire loan origination lifecycle — from application intake through compliance and customer communication. What Traditional AI, Gen AI, and RAG can only partially address, Agentic AI orchestrates end-to-end, autonomously.',
+  'Agentic AI achieves 100% coverage in fraud detection and AML compliance — monitoring transactions, investigating alerts, filing regulatory reports, communicating with customers, and adapting its own detection models, all autonomously, around the clock.',
+  'Agentic AI is the complete digital wealth advisor — profiling clients, analysing portfolios, generating personalised advice, validating MiFID II suitability, communicating proactively, and executing approved rebalancing trades autonomously with full audit trails.'
+];
+const SLBLS=['Use Case Overview','Tasks Mapped','Traditional AI','Generative AI','RAG AI','Agentic AI','Coverage Scores','Champion — Agentic AI','—'];
+const BLBLS=['Show Tasks','Show Traditional AI','Show Generative AI','Show RAG','Show Agentic AI','Show Scores','Declare Champion','—','—'];
+
+/* ── STATE ── */
+let tab=0, step=0, dark=false;
+
+/* ── THEME ── */
+function toggleTheme(){
+  dark=!dark;
+  document.body.classList.toggle('dark',dark);
+  document.getElementById('thIco').textContent=dark?'☀️':'🌙';
+  document.getElementById('thLbl').textContent=dark?'Light Mode':'Dark Mode';
+}
+
+/* ── INTRO EXPAND/COLLAPSE ── */
+function toggleIntro(t){
+  const ic=document.getElementById('ic'+t);
+  const ib=document.getElementById('ib'+t);
+  const eb=document.getElementById('eb'+t);
+  if(!ic||!ib||!eb)return;
+  const collapsed=ic.classList.contains('collapsed');
+  if(collapsed){
+    ic.classList.remove('collapsed');
+    ib.classList.remove('hidden');
+    eb.innerHTML='<span class="eico">▲</span> Hide Details';
+    eb.classList.add('is-exp');
+  } else {
+    ic.classList.add('collapsed');
+    ib.classList.add('hidden');
+    eb.innerHTML='<span class="eico">▼</span> Show Details';
+    eb.classList.remove('is-exp');
+  }
+}
+
+/* ── TAB ── */
+function switchTab(i){
+  if(i===tab)return;
+  tab=i;
+  document.querySelectorAll('.tab').forEach((b,j)=>b.classList.toggle('on',j===i));
+  document.querySelectorAll('.panel').forEach((p,j)=>p.classList.toggle('on',j===i));
+  resetTab();
+}
+
+/* ── RESET ── */
+function resetTab(){
+  step=0; updateUI();
+  // hide analysis grid, show full intro
+  const ag=document.getElementById('ag'+tab);
+  if(ag)ag.style.display='none';
+  const ic=document.getElementById('ic'+tab);
+  const ib=document.getElementById('ib'+tab);
+  const ir=document.getElementById('ir'+tab);
+  const eb=document.getElementById('eb'+tab);
+  if(ic){ic.classList.remove('collapsed');}
+  if(ib){ib.classList.remove('hidden');}
+  if(ir){ir.style.display='none';}
+  if(eb){eb.innerHTML='<span class="eico">▲</span> Hide Details';eb.classList.add('is-exp');}
+  // reset task items
+  const tc=document.getElementById('tc'+tab);
+  if(tc){tc.classList.remove('show');tc.querySelectorAll('.t-item').forEach(x=>x.classList.remove('show'));}
+  // reset platform cards
+  for(let i=0;i<4;i++){
+    const pc=document.getElementById('pc'+tab+i);
+    if(!pc)continue;
+    pc.classList.remove('show','focused','champ');
+    pc.style.display='none';
+    const f=pc.querySelector('.sc-fill');
+    if(f)f.style.width='0';
+  }
+  equalize();
+}
+
+/* ── ADVANCE ── */
+function advance(){if(step>=8)return;step++;run();updateUI();}
+
+function run(){
+  const s=step, t=tab;
+  if(s===1) doTasksAndGrid(t);
+  else if(s===2) doExpand(t,0,false);
+  else if(s===3) doExpand(t,1,false);
+  else if(s===4) doExpand(t,2,false);
+  else if(s===5) doExpand(t,3,false);
+  else if(s===6) animScores(t);
+  else if(s===7) doChamp(t);
+}
+
+function doTasksAndGrid(t){
+  // Collapse intro to compact bar, show expand button
+  const ic=document.getElementById('ic'+t);
+  const ib=document.getElementById('ib'+t);
+  const ir=document.getElementById('ir'+t);
+  const eb=document.getElementById('eb'+t);
+  if(ic) ic.classList.add('collapsed');
+  if(ib) ib.classList.add('hidden');
+  if(ir) ir.style.display='flex';
+  if(eb){eb.innerHTML='<span class="eico">▼</span> Show Details';eb.classList.remove('is-exp');}
+  // show analysis grid
+  const ag=document.getElementById('ag'+t);
+  if(ag) ag.style.display='grid';
+  // animate tasks
+  const tc=document.getElementById('tc'+t);
+  if(!tc)return;
+  tc.classList.add('show');
+  tc.querySelectorAll('.t-item').forEach((x,i)=>setTimeout(()=>x.classList.add('show'),i*80));
+  setTimeout(equalize,300);
+}
+
+function doExpand(t,i,focus){
+  const pc=document.getElementById('pc'+t+i);
+  if(!pc)return;
+  pc.style.display='flex';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    pc.classList.add('show');
+    if(focus) pc.classList.add('focused');
+    const f=pc.querySelector('.sc-fill');
+    if(f) setTimeout(()=>f.style.width=f.dataset.v+'%',380);
+    setTimeout(equalize,140);
+  }));
+}
+
+function doNorm(t,i){
+  const pc=document.getElementById('pc'+t+i);
+  if(pc) pc.classList.remove('focused');
+  setTimeout(equalize,140);
+}
+
+function doChamp(t){
+  doExpand(t,3,true);
+  setTimeout(()=>{
+    for(let i=0;i<4;i++){const pc=document.getElementById('pc'+t+i);if(pc)pc.classList.remove('focused');}
+    const a=document.getElementById('pc'+t+'3');
+    if(a) a.classList.add('champ');
+    setTimeout(equalize,120);
+    setTimeout(()=>{openM(t);startFW();},1000);
+  },1700);
+}
+
+/* ── EQUALIZE HEIGHTS (task rows ↔ platform rows) ── */
+function equalize(){
+  const t=tab;
+  const tc=document.getElementById('tc'+t);
+  const pr=document.getElementById('pr'+t);
+  if(!tc||!pr) return;
+  // reset
+  tc.style.minHeight='';
+  const tci=tc.querySelector('.tc-inner');
+  if(tci) tci.style.height='';
+  pr.querySelectorAll('.pc').forEach(pc=>{pc.style.minHeight='';});
+  requestAnimationFrame(()=>{
+    const tcH=tc.offsetHeight;
+    let maxH=tcH;
+    pr.querySelectorAll('.pc').forEach(pc=>{
+      if(pc.style.display!=='none') maxH=Math.max(maxH,pc.offsetHeight);
+    });
+    if(maxH<10) return;
+    tc.style.minHeight=maxH+'px';
+    const lbH=tc.querySelector('.tc-head')?tc.querySelector('.tc-head').offsetHeight+10:26;
+    if(tci) tci.style.height=(maxH-lbH)+'px';
+    pr.querySelectorAll('.pc').forEach(pc=>{
+      if(pc.style.display!=='none') pc.style.minHeight=maxH+'px';
+    });
+  });
+}
+
+/* ── MODAL STARS ── */
+function buildStars(){
+  const c=document.getElementById('mStars');
+  c.innerHTML='';
+  for(let i=0;i<24;i++){
+    const s=document.createElement('div');
+    s.className='modal-star';
+    s.style.left=Math.random()*100+'%';
+    s.style.top=Math.random()*100+'%';
+    s.style.setProperty('--d',(1.2+Math.random()*2.5)+'s');
+    s.style.animationDelay=(Math.random()*2)+'s';
+    c.appendChild(s);
+  }
+}
+
+/* ── MODAL ── */
+function openM(t){
+  const s=SCORES[t];
+  ['ms0','ms1','ms2','ms3'].forEach((id,i)=>{document.getElementById(id).textContent=[s.t,s.g,s.r,s.a][i];});
+  document.getElementById('mD').textContent=DESCS[t];
+  buildStars();
+  document.getElementById('mv').classList.add('open');
+}
+function closeM(){
+  document.getElementById('mv').classList.remove('open');
+  stopFW();
+}
+
+/* ── UI STATE ── */
+function updateUI(){
+  document.getElementById('sLbl').textContent=SLBLS[step]||'';
+  for(let i=0;i<9;i++){
+    const d=document.getElementById('sd'+i);
+    if(!d) continue;
+    d.classList.remove('done','cur');
+    if(i<step) d.classList.add('done');
+    else if(i===step) d.classList.add('cur');
+  }
+  document.getElementById('nLbl').textContent=BLBLS[step]||'Next';
+  document.getElementById('nBtn').disabled=step>=7;
+}
+
+/* ── KEYBOARD ── */
+document.addEventListener('keydown',e=>{
+  if((e.key==='ArrowRight'||e.key==='Enter')&&!document.getElementById('mv').classList.contains('open')) advance();
+  if(e.key==='Escape') closeM();
+});
+window.addEventListener('resize',equalize);
+
+/* ── FIREWORKS ── */
+const fwC=document.getElementById('fw');
+const fwX=fwC.getContext('2d');
+let fwId=null, burstIv=null, pts=[];
+const FWC=['#D4A830','#B5861C','#924F18','#FFD060','#FF9040','#50C8E8','#A8E870','#F88888','#ffffff','#E8D8A0'];
+
+function rsz(){fwC.width=innerWidth;fwC.height=innerHeight;}
+rsz();
+addEventListener('resize',rsz);
+
+class Pt{
+  constructor(x,y,c){this.x=x;this.y=y;this.vx=(Math.random()-.5)*16;this.vy=(Math.random()-.5)*16-5;this.a=1;this.c=c;this.r=Math.random()*3.8+1;this.g=.22;}
+  up(){this.x+=this.vx;this.y+=this.vy;this.vy+=this.g;this.a-=.014;this.vx*=.97;}
+  dr(){fwX.save();fwX.globalAlpha=Math.max(0,this.a);fwX.beginPath();fwX.arc(this.x,this.y,this.r,0,Math.PI*2);fwX.fillStyle=this.c;fwX.fill();fwX.restore();}
+}
+function spwn(){
+  const x=Math.random()*fwC.width;
+  const y=Math.random()*fwC.height*.5;
+  const c=FWC[Math.floor(Math.random()*FWC.length)];
+  for(let i=0;i<100;i++) pts.push(new Pt(x,y,c));
+}
+function fwLoop(){fwX.clearRect(0,0,fwC.width,fwC.height);pts=pts.filter(p=>p.a>0);pts.forEach(p=>{p.up();p.dr();});fwId=requestAnimationFrame(fwLoop);}
+function startFW(){pts=[];if(fwId)cancelAnimationFrame(fwId);fwLoop();spwn();burstIv=setInterval(spwn,650);setTimeout(stopFW,8000);}
+function stopFW(){clearInterval(burstIv);setTimeout(()=>{cancelAnimationFrame(fwId);fwX.clearRect(0,0,fwC.width,fwC.height);},2500);}
+
+
+/* ── FLAG PANEL TOGGLE ── */
+function toggleFlagPanel(t){
+  const fp=document.getElementById('fp'+t);
+  if(fp) fp.classList.toggle('open');
+}
+
+/* ── GLOBAL DESCRIPTION TOGGLE ── */
+const descExpanded=[true,true,true];
+function toggleAllDescriptions(t){
+  descExpanded[t]=!descExpanded[t];
+  const exp=descExpanded[t];
+  const panel=document.getElementById('p'+t);
+  if(panel){
+    panel.querySelectorAll('.pc-sub-wrap').forEach(function(w){
+      w.classList.toggle('hidden',!exp);
+    });
+  }
+  const btn=document.getElementById('gtb'+t);
+  const lbl=document.getElementById('gtl'+t);
+  if(btn) btn.classList.toggle('collapsed',!exp);
+  if(lbl) lbl.textContent=exp?'Collapse Descriptions':'Expand Descriptions';
+}
+
+/* ── ANIMATE SCORES (step 6) ── */
+function animScores(t){
+  for(var i=0;i<4;i++){var pc=document.getElementById('pc'+t+i);if(pc)pc.classList.remove('focused');}
+  var pr=document.getElementById('pr'+t);
+  if(pr){pr.querySelectorAll('.sc-fill').forEach(function(f){var v=f.getAttribute('data-v');if(v)setTimeout(function(){f.style.width=v+'%';},100);});}
+  setTimeout(equalize,140);
+}
+
+/* ── INIT ── */
+(function(){resetTab();})();
+</script>
+</body>
+</html>
